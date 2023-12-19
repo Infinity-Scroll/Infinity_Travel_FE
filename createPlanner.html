@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Planner</title>
+    <!-- CSS 스타일링은 필요에 따라 추가하세요 -->
+    <style>
+        /* 여기에 스타일링 코드 추가 */
+    </style>
+</head>
+<body>
+    <h1>Create Planner</h1>
+    <form id="planner-form">
+        <!-- Planner 정보 입력 -->
+        <label for="planner-name">Planner Name:</label>
+        <input type="text" id="planner-name" name="planner-name" required>
+
+        <!-- Period Event 입력 -->
+        <div id="period-events-container">
+            <h2>Period Events</h2>
+            <div class="period-event">
+                <label for="period-event-title">Title:</label>
+                <input type="text" id="period-event-title" name="period-event-title" required>
+
+                <label for="period-event-start-date">Start Date:</label>
+                <input type="date" id="period-event-start-date" name="period-event-start-date" required>
+
+                <label for="period-event-end-date">End Date:</label>
+                <input type="date" id="period-event-end-date" name="period-event-end-date" required>
+
+                <!-- Date Events 입력 -->
+                <div class="date-events-container">
+                    <h3>Date Events</h3>
+                    <div class="date-event">
+                        <label for="date-event-date">Date:</label>
+                        <input type="date" id="date-event-date" name="date-event-date" required>
+
+                        <label for="date-event-description">Description:</label>
+                        <textarea id="date-event-description" name="date-event-description" required></textarea>
+
+                        <!-- Place 선택 -->
+                        <label for="place-select">Select Place:</label>
+                        <select id="place-select" name="place-select">
+                            <!-- 여기에 DRF로부터 받아온 Place 목록을 옵션으로 추가 -->
+                        </select>
+
+                        <!-- 추가 필드를 필요한 만큼 추가할 수 있습니다. -->
+                    </div>
+                    <button type="button" onclick="addDateEvent()">Add Date Event</button>
+                </div>
+            </div>
+            <button type="button" onclick="addPeriodEvent()">Add Period Event</button>
+        </div>
+
+        <button type="button" onclick="submitPlanner()">Complete</button>
+    </form>
+
+    <!-- JavaScript 코드 추가 -->
+    <script>
+        function addDateEvent() {
+            const periodEventContainer = event.target.closest('.period-event');
+            const newDateEvent = document.querySelector('.date-event').cloneNode(true);
+            periodEventContainer.appendChild(newDateEvent);
+        }
+
+        function addPeriodEvent() {
+            const periodEventsContainer = document.getElementById('period-events-container');
+            const newPeriodEvent = document.querySelector('.period-event').cloneNode(true);
+            periodEventsContainer.appendChild(newPeriodEvent);
+        }
+
+        async function submitPlanner() {
+            try {
+                const plannerName = document.getElementById('planner-name').value;
+                const periodEvents = [];
+
+                document.querySelectorAll('.period-event').forEach(periodEvent => {
+                    const title = periodEvent.querySelector('[name="period-event-title"]').value;
+                    const startDate = periodEvent.querySelector('[name="period-event-start-date"]').value;
+                    const endDate = periodEvent.querySelector('[name="period-event-end-date"]').value;
+
+                    const dateEvents = [];
+                    periodEvent.querySelectorAll('.date-event').forEach(dateEvent => {
+                        const date = dateEvent.querySelector('[name="date-event-date"]').value;
+                        const description = dateEvent.querySelector('[name="date-event-description"]').value;
+                        const placeId = dateEvent.querySelector('[name="place-select"]').value;
+
+                        // 각각의 Date Event를 dateEvents에 추가
+                        dateEvents.push({
+                            event_date: date,
+                            description,
+                            place: placeId,
+                            // 추가 필드를 필요한 만큼 추가할 수 있습니다.
+                        });
+                    });
+
+                    // 각각의 Period Event를 periodEvents에 추가
+                    periodEvents.push({
+                        title,
+                        start_date: startDate,
+                        end_date: endDate,
+                        date_events: dateEvents,
+                    });
+                });
+
+                // 데이터를 DRF API에 전송
+                const response = await fetch('http://localhost:8000/schedule/planner/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        title: plannerName,
+                        period_events: periodEvents,
+                    }),
+            });
+
+            if (response.ok) {
+                console.log('Planner created successfully!');
+                // 원하는 처리를 추가하세요 (예: 페이지 이동)
+            } else {
+                console.error('Failed to create planner.');
+            }
+        } catch (error) {
+            console.error('Error submitting planner:', error);
+        }
+    }
+
+    // 페이지 로드 시 Place 목록을 가져와서 선택 옵션으로 추가
+    async function loadPlaces() {
+        const placeSelect = document.getElementById('place-select');
+        placeSelect.innerHTML = ''; // 기존 옵션 초기화
+
+        // DRF API로부터 Place 목록을 가져오기
+        const response = await fetch('http://localhost:8000/place/api/places/');
+        const places = await response.json();
+
+        // Place 목록을 선택 옵션으로 추가
+        places.forEach(place => {
+            const option = document.createElement('option');
+            option.value = place.id;
+            option.textContent = place.name;
+            placeSelect.appendChild(option);
+        });
+    }
+
+    // 페이지 로드 시 Place 목록을 불러오도록 설정
+    loadPlaces();
+</script>
+</body>
+</html>

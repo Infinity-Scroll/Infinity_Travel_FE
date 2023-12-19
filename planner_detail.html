@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planner Detail</title>
+    <!-- CSS 스타일링은 필요에 따라 추가하세요 -->
+    <style>
+        /* 여기에 스타일링 코드 추가 */
+    </style>
+</head>
+<body>
+    <h1>Planner Detail</h1>
+    <div id="planner-detail">
+        <!-- 여기에 Planner의 세부 정보를 표시할 요소 추가 -->
+    </div>
+
+    <h2>Period Events</h2>
+    <ul id="period-events-list">
+        <!-- 여기에 Period Events를 표시할 요소 추가 -->
+    </ul>
+
+    <!-- JavaScript 코드 추가 -->
+    <script>
+        // Planner 상세 정보를 가져와서 표시하는 함수
+        async function fetchPlannerDetail() {
+            try {
+                // localStorage에서 plannerId 값을 가져옴
+                const plannerId = localStorage.getItem('plannerId');
+
+                const response = await fetch(`http://localhost:8000/schedule/planner/${plannerId}/`);
+                const data = await response.json();
+
+                // Planner 세부 정보 표시
+                const plannerDetailElement = document.getElementById('planner-detail');
+                plannerDetailElement.innerHTML = `
+                    <h2>${data.title}</h2>
+                    <p>Start Date: ${data.start_date}</p>
+                    <p>End Date: ${data.end_date}</p>
+                    <!-- 필요한 정보를 추가 -->
+                `;
+
+                // Period Events 표시
+                const periodEventsListElement = document.getElementById('period-events-list');
+                periodEventsListElement.innerHTML = '';
+                data.period_events.forEach(periodEvent => {
+                    periodEventsListElement.innerHTML += `
+                        <li>
+                            <h3>${periodEvent.title}</h3>
+                            <p>Start Date: ${periodEvent.start_date}</p>
+                            <p>End Date: ${periodEvent.end_date}</p>
+                            <!-- 필요한 정보를 추가 -->
+
+                            <!-- Date Events 표시 -->
+                            <ul>
+                                ${periodEvent.date_events.map(dateEvent => `
+                                    <li>
+                                        <p>Date: ${dateEvent.event_date}</p>
+                                        <p>Description: ${dateEvent.description}</p>
+                                        <!-- Place 정보 표시 -->
+                                        ${dateEvent.place ? `<img src="${dateEvent.place.photo}" alt="Place Photo">` : ''}
+                                        <!-- 필요한 정보를 추가 -->
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </li>
+                    `;
+                });
+            } catch (error) {
+                console.error('Error fetching planner detail:', error);
+            }
+        }
+
+        // 페이지 로드 시 Planner ID에 해당하는 상세 정보 가져오기
+        document.addEventListener('DOMContentLoaded', function () {
+            fetchPlannerDetail();
+        });
+    </script>
+    
+</body>
+</html>

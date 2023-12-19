@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Place List and Detail</title>
+</head>
+<body>
+
+    <h1>Place List and Detail</h1>
+
+    <ul id="placeList"></ul>
+    <div id="placeDetail"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const placeListContainer = document.getElementById('placeList');
+            const placeDetailContainer = document.getElementById('placeDetail');
+
+            // Fetch를 사용하여 Place 목록 가져오기
+            fetch('http://localhost:8000/place/api/places/')
+                .then(response => response.json())
+                .then(data => {
+                    // Place 목록 생성
+                    const placeList = document.createElement('ul');
+                    data.forEach(place => {
+                        const placeItem = document.createElement('li');
+                        const placeLink = document.createElement('a');
+                        placeLink.href = `javascript:void(0);`;
+                        placeLink.textContent = place.name;
+                        placeLink.onclick = function () {
+                            showPlaceDetail(place.id);
+                        };
+                        placeItem.appendChild(placeLink);
+                        placeList.appendChild(placeItem);
+                    });
+                    placeListContainer.appendChild(placeList);
+                })
+                .catch(error => console.error('Error fetching place list:', error));
+
+            // 선택한 Place의 ID로 상세 정보 보여주기
+            window.showPlaceDetail = function (placeId) {
+                // Fetch를 사용하여 선택한 ID의 Place 상세 정보 가져오기
+                fetch(`http://localhost:8000/place/api/places/${placeId}/`)
+                    .then(response => response.json())
+                    .then(place => {
+                        // Place 상세 정보 생성
+                        const placeDetail = document.createElement('div');
+                        placeDetail.innerHTML = `
+                            <h2>${place.name}</h2>
+                            <p>Description: ${place.description}</p>
+                            <p>Category: ${place.category}</p>
+                            <p>Coordinates: ${place.latitude}, ${place.longitude}</p>
+                            <img src="${place.photo}" alt="${place.name} Photo" style="max-width: 300px; max-height: 300px;">
+                        `;
+
+                        // 기존 상세 정보 삭제 후 새로운 정보로 갱신
+                        placeDetailContainer.innerHTML = '';
+                        placeDetailContainer.appendChild(placeDetail);
+                    })
+                    .catch(error => console.error('Error fetching place detail:', error));
+            };
+        });
+    </script>
+
+</body>
+</html>
