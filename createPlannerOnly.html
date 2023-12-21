@@ -39,7 +39,7 @@
                 const endDate = document.getElementById('end-date').value;
 
                 // 데이터를 DRF API에 전송
-                const response = await fetch('http://localhost:8000/schedule/planner/list-create/', {
+                const response = await fetch('http://localhost:8000/schedule/api/planner/list-create/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

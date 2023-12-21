@@ -16,7 +16,7 @@
             const plannerListContainer = document.getElementById('plannerList');
 
             // Fetch를 사용하여 Planner 목록 가져오기
-            fetch('http://localhost:8000/schedule/plannerList/')
+            fetch('http://localhost:8000/schedule/api/planners/')
                 .then(response => response.json())
                 .then(data => {
                     // Planner 목록 생성

@@ -28,7 +28,7 @@
                 // localStorage에서 plannerId 값을 가져옴
                 const plannerId = localStorage.getItem('plannerId');
 
-                const response = await fetch(`http://localhost:8000/schedule/planner/${plannerId}/`);
+                const response = await fetch(`http://localhost:8000/schedule/api/planners/${plannerId}/`);
                 const data = await response.json();
 
                 // Planner 세부 정보 표시

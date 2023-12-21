@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Place List and Detail</title>
+    <!-- Google Maps API 스크립트 추가 -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPRAME5ZhySmydx9zsgIZwPkTD6MclT1Y&callback=initMap"></script>
 </head>
 <body>
 
@@ -11,11 +13,25 @@
 
     <ul id="placeList"></ul>
     <div id="placeDetail"></div>
+    <!-- 맵을 표시할 div 추가 -->
+    <div id="map" style="width: 500px; height: 500px;"></div>
 
     <script>
+        // 전역 변수로 맵 객체 선언
+        let map;
+
         document.addEventListener('DOMContentLoaded', function () {
             const placeListContainer = document.getElementById('placeList');
             const placeDetailContainer = document.getElementById('placeDetail');
+            
+            // Google Maps 초기화 함수
+            window.initMap = function () {
+                // 맵 객체 생성
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: {lat: 0, lng: 0}, // 초기 중심 좌표
+                    zoom: 2 // 초기 줌 레벨
+                });
+            };
 
             // Fetch를 사용하여 Place 목록 가져오기
             fetch('http://localhost:8000/place/api/places/')
@@ -33,6 +49,9 @@
                         };
                         placeItem.appendChild(placeLink);
                         placeList.appendChild(placeItem);
+                        
+                        // Place 목록에 해당하는 마커를 지도에 추가
+                        addMarker(place);
                     });
                     placeListContainer.appendChild(placeList);
                 })
@@ -57,14 +76,22 @@
                         // 기존 상세 정보 삭제 후 새로운 정보로 갱신
                         placeDetailContainer.innerHTML = '';
                         placeDetailContainer.appendChild(placeDetail);
-
+                        
                         // 선택한 Place의 위치로 맵 이동
                         map.setCenter({lat: place.latitude, lng: place.longitude});
                         map.setZoom(15); // 예시로 줌 레벨을 15로 설정
-
                     })
                     .catch(error => console.error('Error fetching place detail:', error));
             };
+
+            // Place에 해당하는 마커를 지도에 추가하는 함수
+            function addMarker(place) {
+                const marker = new google.maps.Marker({
+                    position: {lat: place.latitude, lng: place.longitude},
+                    map: map,
+                    title: place.name
+                });
+            }
         });
     </script>
 
