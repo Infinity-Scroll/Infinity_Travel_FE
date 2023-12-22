@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/Infinity-Scroll/Infinity_Travel_FE#readme",
   "devDependencies": {
+    "prettier": "^3.1.1",
+    "prettier-plugin-tailwindcss": "^0.5.9",
     "tailwindcss": "^3.4.0"
   }
 }
