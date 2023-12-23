@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>채팅하기</title>
+    <link rel="stylesheet" href="../dist/output.css">
+    <link rel="stylesheet" href="../public/css/chat.css">
+</head>
+
+<body>
+    <!-- 임시 네비바 -->
+    <div class="container mx-auto shadow-lg rounded-lg">
+
+        <div class="px-5 py-5 flex justify-between items-center bg-white border-b-2">
+            <div class="font-semibold text-2xl">임시네비바</div>
+            <div class="w-1/2">
+                <input type="text" name="" id="" placeholder="search"
+                    class="rounded-2xl bg-gray-100 py-3 px-5 w-full" />
+            </div>
+            <div
+                class="h-12 w-12 p-2 bg-yellow-500 rounded-full text-white font-semibold flex items-center justify-center">
+                네비바
+            </div>
+        </div>
+        <!-- 네비바 -->
+
+
+        <!-- Chatting -->
+        <div class="flex flex-row justify-between bg-white max-h-[700px]">
+
+            <div class="roomlist">
+
+                <div class="border-b-2 py-4 px-2">
+                    <input type="text" placeholder="search chatting"
+                        class="py-2 px-2 border-2 border-gray-200 rounded-2xl w-full" />
+                </div>
+
+                <div class="unselect chat-user">
+                    <div class="w-1/4">
+                        <img src="https://source.unsplash.com/_7LbC5J-jw4/600x600"
+                            class="object-cover h-12 w-12 rounded-full" alt="" />
+                    </div>
+                    <div class="w-full">
+                        <div class="text-lg font-semibold">Luis1994</div>
+                        <span class="text-gray-500">Pick me at 9:00 Am</span>
+                    </div>
+                    <button class="listdetail"><img src="../public/img/roomdelete.png" alt="" class="w-8 h-10"></button>
+                </div>
+
+            </div>
+
+            <div class="message w-full px-5 flex flex-col justify-between overflow-y-auto">
+
+                <div class="chat-message flex flex-col mt-5">
+
+
+                    <div class="flex justify-start">
+                        <img src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
+                            class="object-cover h-12 w-12 rounded-xl" alt="" />
+                        <div class="otherusermessage text-lg">
+                            안녕하세요! 이곳에서 여행자들과 이야기를 나눠보세요. 다른 사용자를 선택 버튼을 누르면
+                            여러분만의 특별한 채팅이 시작됩니다."
+                        </div>
+                    </div>
+                </div>
+
+
+                <div id="chat-input-container" class="py-5">
+                    <input id="chat-input" class="w-full bg-gray-300 py-5 px-3 rounded-xl" type="text"
+                        placeholder="메제지를 입력해 주세요." />
+                </div>
+            </div>
+            <!-- end message -->
+            <div class="w-2/5 border-l-2 px-5">
+                <div class="flex flex-col">
+                    <div class="font-semibold text-center text-3xl py-4">내정보</div>
+                    <img src="../public/img/default_profile.jpg" class="profile_img object-cover rounded-full h-64"
+                        alt="" />
+                    <div class="nickname font-semibold text-lg py-4"></div>
+                    <div class="introduction font-light">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="username hidden"></div>
+    <div class="hidden"></div>
+</body>
+<script src="../public/js/urls.js"></script>
+<script src="../public/js/chat.js"></script>
+
+</html>

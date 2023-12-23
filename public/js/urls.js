@@ -1,0 +1,6 @@
+const url = "http://127.0.0.1:8000"
+const mydataurl = url + "/accounts/"
+const roomlisturl = url + "/chat/roomlist/"
+const roomdeleteurl = url + "/chat/roominvisible/"
+const chathistoryurl = url + "/chat/"
+const chatws =  "ws://127.0.0.1:8000/ws/chat/"
