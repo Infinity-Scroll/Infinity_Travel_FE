@@ -44,8 +44,9 @@ document.querySelector('.roomlist').addEventListener('click', function(event) {
     }
 });
 
-function connectWebSocket(room_name) {
 
+
+function connectWebSocket(room_name) {
     const webSocketUrl = `${chatws}${room_name}/`;
     const webSocket = new WebSocket(webSocketUrl);
 
@@ -53,7 +54,7 @@ function connectWebSocket(room_name) {
     webSocket.addEventListener('open', function(event) {
         console.log('웹소켓이 열렸습니다.');
         loadChatHistory(room_name)
-        
+        scrollChatToBottom();
         document.getElementById('chat-input').addEventListener('keyup', function(e) {
             if (e.key === 'Enter') {
                 
@@ -64,6 +65,7 @@ function connectWebSocket(room_name) {
     webSocket.onmessage = function (message) {
         const receivedMessage = JSON.parse(message.data);
         loadMessage(receivedMessage);
+        scrollChatToBottom();
     };
     
 function sendMessage(webSocket) {
@@ -80,6 +82,7 @@ function sendMessage(webSocket) {
     messageInputDom.value = '';
 }
 }
+
 
 function loadMessage(data) {
     console.log('받은메세지: ',data)
@@ -120,7 +123,6 @@ function loadMessage(data) {
     `;
     }
     chatmessage.innerHTML += messageHTML;
-
 }
 
 async function load_roomlist() {
@@ -232,46 +234,12 @@ function add_roomlist(room) {
         <div class="text-lg font-semibold">${room.other_user[0].nickname}</div>
         <span class="text-gray-500">${room.lastest_text}</span>
     </div>
+    <button class="listdetail"><img src="../public/img/roomdelete.png" alt="" class="w-8 h-10"></button>
 </div>
 `;
 document.querySelector('.roomlist').innerHTML += content;
+adddeletebutton()
 }
-// const chatSocket = new WebSocket(
-//     'ws://'
-//     + '127.0.0.1:8000'
-//     + '/ws/chat/'
-//     + roomName
-//     + '/'
-// );
-
-// chatSocket.onmessage = function (e) {
-//     e.preventDefault();
-//     const data = JSON.parse(e.data);
-//     document.querySelector('#chat-log').value += (data.username + ': ' + data.message.message + '\n');
-//     myname.innerHTML = data.username
-//     console.log(data)
-// };
-
-// chatSocket.onclose = function (e) {
-//     console.error('Chat socket closed unexpectedly');
-// };
-
-// document.querySelector('#chat-message-input').focus();
-// document.querySelector('#chat-message-input').onkeyup = function (e) {
-//     if (e.keyCode === 13) {  // enter, return
-//         document.querySelector('#chat-message-submit').click();
-//     }
-// };
-
-// document.querySelector('#chat-message-submit').onclick = function (e) {
-//     e.preventDefault();
-//     const messageInputDom = document.querySelector('#chat-message-input');
-//     const message = messageInputDom.value;
-//     chatSocket.send(JSON.stringify({
-//         'message': message
-//     }));
-//     messageInputDom.value = '';
-// };
 
 function formatDateTime(dateTimeString) {
     const date = new Date(dateTimeString);
@@ -292,10 +260,10 @@ async function getuser() {
         });
         if (response.ok) {
           const mydata = await response.json();
-          console.log(mydata)
           const username = document.querySelector('.username')
           username.innerHTML = mydata.nickname
-
+            
+          loadProfile(mydata)
         } else {
           const errorData = await response.json();
           alert(errorData.message);
@@ -303,4 +271,64 @@ async function getuser() {
       } catch (error) {
         console.error("유저 불러오기 에러", error);
     }
+}
+
+function loadProfile(data) {
+    const profile_img = document.querySelector('.profile_img')
+    const nickname = document.querySelector('.nickname')
+    const introduction = document.querySelector('.introduction')
+    
+    let profileImg;
+    if (data.image_url != null) {
+        profileImg = `${url}${data.image_url}`;
+    } else {
+        profileImg = "../public/img/default_profile.jpg";
+    }
+
+    profile_img.src = profileImg
+    nickname.innerHTML = data.nickname
+    introduction.innerHTML = data.introduction
+}
+
+function scrollChatToBottom() {
+    const chatMessageContainer = document.querySelector('.message');
+    chatMessageContainer.scrollTop = chatMessageContainer.scrollHeight;
+}
+
+function adddeletebutton() {
+    document.querySelectorAll('.listdetail').forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.stopPropagation();
+            const confirmation = confirm('정말로 채팅방을 나가시겠습니까?');
+    
+            if (confirmation) {
+                const roomName = this.closest('.chat-user').querySelector('.roomname').textContent;
+                leaveRoom(roomName);
+            }
+        });
+    });
+    }
+
+//방나가기
+function leaveRoom(roomName) {
+    const deleteUrl = `${roomdeleteurl}${roomName}/`;
+
+    fetch(deleteUrl, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+    })
+    .then(response => {
+        if (response.ok) {
+            window.alert(`채팅방에서 나갔습니다.`);
+            // 예를 들어, 방 목록 갱신 등의 작업을 수행할 수 있습니다.
+        } else {
+            window.alert(`방 나가기 실패: ${response.status}`);
+        }
+    })
+    .catch(error => {
+        console.error('방 나가기 요청 오류:', error);
+    });
 }
