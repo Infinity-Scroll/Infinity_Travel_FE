@@ -1,126 +1,115 @@
 <!-- 채팅방 생성//동행글에서  나가기 -->
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
-<head>
+  <head>
     <meta charset="utf-8" />
     <title>Chat Room</title>
-</head>
+  </head>
 
-<body>
-    <textarea id="chat-log" cols="100" rows="20"></textarea><br>
-    <input id="chat-message-input" type="text" size="100"><br>
-    <input id="chat-message-submit" type="button" value="Send">
+  <body>
+    <textarea id="chat-log" cols="100" rows="20"></textarea><br />
+    <input id="chat-message-input" type="text" size="100" /><br />
+    <input id="chat-message-submit" type="button" value="Send" />
     {{ "room-name 입력" }}
-    <input type="text" id="room-name" value="8BMADOXHY0VYE0YUHZOK">
+    <input type="text" id="room-name" value="8BMADOXHY0VYE0YUHZOK" />
     <div>
-        <span>내이름: <span class="myname"></span></span>
+      <span>내이름: <span class="myname"></span></span>
     </div>
     <!-- <div>방목록
         <textarea id="chat-rooms" cols="50" rows="10"></textarea><br>
     </div> -->
-</body>
-<script>
-
-
+  </body>
+  <script>
     async function 임시로그인() {
-        try {
-            const response = await fetch('http://127.0.0.1:8000/accounts/login/', {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                credentials: "include",
-                body: JSON.stringify({
-                    "email": "test2@test2.com",
-                    "password": "test123"
-                }),
-            });
+      try {
+        const response = await fetch('http://127.0.0.1:8000/accounts/login/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify({
+            email: 'test2@test2.com',
+            password: 'test123',
+          }),
+        });
 
-            if (response.ok) {
-                const logindata = await response.json();
-                console.log(logindata);
+        if (response.ok) {
+          const logindata = await response.json();
+          console.log(logindata);
 
-                // 로그인 후 웹소켓 연결 등 추가 작업 수행
-            }
-        } catch (error) {
-            console.error('Login failed:', error);
+          // 로그인 후 웹소켓 연결 등 추가 작업 수행
         }
-    };
-    임시로그인()
+      } catch (error) {
+        console.error('Login failed:', error);
+      }
+    }
+    임시로그인();
     const roomName = document.getElementById('room-name').value;
-    const myname = document.querySelector('.myname')
+    const myname = document.querySelector('.myname');
     const chatLog = document.querySelector('#chat-log');
-    const RoomList = document.getElementById('chat-rooms')
+    const RoomList = document.getElementById('chat-rooms');
     let currentPage = 1;
     async function loadChatHistory() {
-        try {
-            const response = await fetch(`http://127.0.0.1:8000/chat/${roomName}/?page=${currentPage}`, {
-                method: "GET",  // GET 메서드로 변경
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                credentials: "include",
-            });
-            if (response.ok) {
-                const data = await response.json();
-                const results = data.results;
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/chat/${roomName}/?page=${currentPage}`, {
+          method: 'GET', // GET 메서드로 변경
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+        });
+        if (response.ok) {
+          const data = await response.json();
+          const results = data.results;
 
-                // 채팅 기록을 화면에 표시
-                results.reverse().forEach(message => {
-                    chatLog.value += `${message.nickname}: ${message.message}\n`;
-                });
+          // 채팅 기록을 화면에 표시
+          results.reverse().forEach((message) => {
+            chatLog.value += `${message.nickname}: ${message.message}\n`;
+          });
 
-                // 현재 페이지 업데이트
-                currentPage += 1;
-            }
-        } catch (error) {
-            console.error('Failed to load chat history:', error);
+          // 현재 페이지 업데이트
+          currentPage += 1;
         }
+      } catch (error) {
+        console.error('Failed to load chat history:', error);
+      }
     }
 
     loadChatHistory();
 
-
-
-    const chatSocket = new WebSocket(
-        'ws://'
-        + '127.0.0.1:8000'
-        + '/ws/chat/'
-        + roomName
-        + '/'
-    );
+    const chatSocket = new WebSocket('ws://' + '127.0.0.1:8000' + '/ws/chat/' + roomName + '/');
 
     chatSocket.onmessage = function (e) {
-        e.preventDefault();
-        const data = JSON.parse(e.data);
-        document.querySelector('#chat-log').value += (data.username + ': ' + data.message.message + '\n');
-        myname.innerHTML = data.username
-        console.log(data)
+      e.preventDefault();
+      const data = JSON.parse(e.data);
+      document.querySelector('#chat-log').value += data.username + ': ' + data.message.message + '\n';
+      myname.innerHTML = data.username;
+      console.log(data);
     };
 
     chatSocket.onclose = function (e) {
-        console.error('Chat socket closed unexpectedly');
+      console.error('Chat socket closed unexpectedly');
     };
 
     document.querySelector('#chat-message-input').focus();
     document.querySelector('#chat-message-input').onkeyup = function (e) {
-        if (e.keyCode === 13) {  // enter, return
-            document.querySelector('#chat-message-submit').click();
-        }
+      if (e.keyCode === 13) {
+        // enter, return
+        document.querySelector('#chat-message-submit').click();
+      }
     };
 
     document.querySelector('#chat-message-submit').onclick = function (e) {
-        e.preventDefault();
-        const messageInputDom = document.querySelector('#chat-message-input');
-        const message = messageInputDom.value;
-        chatSocket.send(JSON.stringify({
-            'message': message
-        }));
-        messageInputDom.value = '';
+      e.preventDefault();
+      const messageInputDom = document.querySelector('#chat-message-input');
+      const message = messageInputDom.value;
+      chatSocket.send(
+        JSON.stringify({
+          message: message,
+        })
+      );
+      messageInputDom.value = '';
     };
-
-
-</script>
-
+  </script>
 </html>
