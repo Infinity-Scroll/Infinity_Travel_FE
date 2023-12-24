@@ -403,9 +403,6 @@
                     current_recruits_select.disabled = true;
                 }
             });
-            current_recruits_select.addEventListener('change', function () {
-                const selected_current_recruits = this.value;
-            });
             // 총 모집 인원 변경 시 현재 모집 중인 인원 업데이트
             total_recruits_select.addEventListener('change', function () {
                 const selected_total_recruits = this.value;
@@ -425,6 +422,7 @@
                     current_recruits_select.disabled = true;
                 }
             });
+            // 현재 모집 중인 인원 변경 시
             current_recruits_select.addEventListener('change', function () {
                 const selected_current_recruits = this.value;
             });
