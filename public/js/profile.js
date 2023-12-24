@@ -38,7 +38,9 @@ function loadProfile(data) {
     const gender = document.getElementById('gender')
 
 
+    if (data.image_url !== null) {
     profileimage.src = url + data.image_url
+    }
     nickname.value = data.nickname
     introduction.value = data.introduction
     email.value = data.email
