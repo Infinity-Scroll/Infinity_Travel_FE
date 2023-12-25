@@ -18,6 +18,5 @@ jobs:
                   password: ${{ secrets.SERVER_PASSWORD }}
                   script: |
                       set -e
-                      cd /home/ubuntu/Infinity_Travel_BE
-                      git switch release
-                      git pull origin release
+                      cd /home/ubuntu/Infinity_Travel_FE
+                      git pull
