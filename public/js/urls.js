@@ -1,4 +1,4 @@
-const url = "http://127.0.0.1:8000"
+const url = "http://www.infinity-travel.shop"
 const mydataurl = url + "/accounts/"
 const signupurl = url + '/accounts/create/'
 const loginurl = url + '/accounts/login/'
@@ -9,6 +9,6 @@ const chatws =  "ws://127.0.0.1:8000/ws/chat/"
 
 
 
-const page = "http://127.0.0.1:5500/pages"
+const page = "http://www.infinity-travel.shop/front/pages"
 const loginpage = page + "/login.html"
 const mainpage = page + "/index.html"
