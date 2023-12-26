@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat Page</title>
+    <link rel="stylesheet" href="../dist/output.css" />
+    <link rel="stylesheet" href="../src/pages/chatroom.css" />
+    <style></style>
+  </head>
+  <body class="flex min-h-screen cursor-default flex-col bg-white">
+    <header class="fixed left-0 right-0 top-0 z-50 bg-gray-200 py-6">
+      <div class="mx-auto max-w-screen-2xl">
+        <nav class="flex items-center justify-between px-4">
+          <div class="logo"><a href="./index.html">Infinity Travel</a></div>
+          <ul class="ml-16 flex space-x-6">
+            <li><a href="./companion.html">동행</a></li>
+            <li><a href="./planner.html">일정</a></li>
+            <li><a href="./search.html">검색</a></li>
+            <li><a href="./chatroom.html">채팅방</a></li>
+          </ul>
+          <div class="first-line:login-icons ml-auto flex gap-8">
+            <div>
+              <a href="./profile.html">마이페이지</a>
+            </div>
+            <div>
+              <a href="./login.html">로그인</a>
+              <span>|</span>
+              <a href="./signup.html">회원가입</a>
+            </div>
+            <div>
+              <a href="">글쓰기</a>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main class="flex flex-grow pb-6 pt-24">
+      <div class="container mx-auto flex max-w-screen-xl p-4">
+        <!-- 채팅방 리스트 -->
+        <aside class="w-1/3 bg-gray-100 p-4">
+          <div class="mb-4 flex items-center">
+            <h2 class="text-xl font-semibold">채팅방 리스트</h2>
+            <input
+              type="text"
+              class="ml-2 flex-grow rounded-2xl border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200"
+              placeholder="채팅방 검색"
+            />
+          </div>
+          <ul class="h-[67rem] space-y-2 overflow-auto">
+            <!-- 채팅방 항목 예시 -->
+            <li>
+              <a href="#" class="block rounded p-2 hover:bg-gray-200">
+                <p>여행 계획 방</p>
+                <p class="text-sm text-gray-600">마지막 메시지 내용 (시간)</p>
+              </a>
+            </li>
+            <!-- 추가 채팅방 링크 -->
+          </ul>
+        </aside>
+
+        <!-- 채팅방 내용 -->
+        <section class="ml-4 w-2/3 rounded bg-white p-4 shadow-lg">
+          <h2 class="mb-4 text-xl font-semibold">채팅방 내용</h2>
+          <div class="chat-content h-[63.3rem] overflow-auto bg-gray-50 p-4">
+            <!-- 채팅 시작 날짜 -->
+            <div class="chat-date mb-4 text-center text-sm text-gray-600">2023년 12월 26일</div>
+
+            <!-- 나의 채팅 -->
+            <div class="mb-2 flex flex-row-reverse items-center">
+              <div class="chat-message mine">안녕하세요~ 여행 계획이 어떻게 되시나요?</div>
+              <span class="chat-time mine-time mr-2 text-xs text-gray-600">15:44</span>
+            </div>
+
+            <!-- 타인의 채팅 -->
+            <div class="mb-2 flex items-center">
+              <img src="/public/assets/images/bird.jpeg" alt="Profile Picture" class="profile-pic mr-2" />
+              <div class="chat-message theirs">서울로 갈 계획을 세우고 있어요!</div>
+              <span class="chat-time ml-2 text-xs text-gray-600">15:45</span>
+            </div>
+            <!-- 나의 채팅 -->
+            <div class="mb-2 flex flex-row-reverse items-center">
+              <div class="chat-message mine">좋아요! 어떤 일정을 생각하고 계신가요?</div>
+              <span class="chat-time mine-time mr-2 text-xs text-gray-600">15:47</span>
+            </div>
+          </div>
+          <div class="mt-4 flex">
+            <input
+              type="text"
+              class="flex-grow rounded-l border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200"
+              placeholder="메시지 입력"
+            />
+            <button class="rounded-r bg-blue-500 px-4 py-2 text-white hover:bg-blue-700">보내기</button>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- 푸터 -->
+    <footer class="mt-auto bg-gray-100 p-4 text-center">
+      <p>&copy; 2023 Infinity Scroll. All rights reserved.</p>
+    </footer>
+  </body>
+</html>

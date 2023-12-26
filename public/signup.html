@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>회원가입 페이지</title>
+    <link rel="stylesheet" href="../dist/output.css" />
+  </head>
+  <body class="flex h-screen min-h-screen cursor-default flex-col items-center justify-center bg-gray-100">
+    <section class="my-auto w-full max-w-lg rounded bg-white p-8 shadow-lg">
+      <header class="mb-6">
+        <h2 class="text-center text-2xl font-semibold">회원가입</h2>
+      </header>
+      <form action="/signup" method="POST">
+        <div class="mb-4">
+          <div class="flex-grow">
+            <label for="email" class="mb-2 block text-sm font-bold">이메일</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="w-full flex-1 rounded border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label for="password" class="mb-2 block text-sm font-bold">비밀번호</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="w-full rounded border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200"
+            required
+          />
+        </div>
+        <div class="mb-4">
+          <label for="password-confirm" class="mb-2 block text-sm font-bold">비밀번호 확인</label>
+          <input
+            type="password"
+            id="password-confirm"
+            name="password-confirm"
+            class="w-full rounded border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200"
+            required
+          />
+        </div>
+        <div class="mb-4">
+          <label for="nickname" class="mb-2 block text-sm font-bold">닉네임 (선택사항)</label>
+          <input
+            type="text"
+            id="nickname"
+            name="nickname"
+            class="w-full rounded border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200"
+            placeholder="미입력시 랜덤 닉네임이 생성됩니다."
+          />
+        </div>
+        <div class="mb-4">
+          <label for="birthdate" class="mb-2 block text-sm font-bold">생년월일</label>
+          <input
+            type="date"
+            id="birthdate"
+            name="birthdate"
+            class="w-full rounded border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200"
+            required
+          />
+        </div>
+        <div class="mb-6">
+          <span class="mb-2 block text-sm font-bold">성별</span>
+          <div class="flex items-center space-x-4">
+            <div>
+              <input type="radio" id="gender-male" name="gender" value="male" class="mr-2" />
+              <label for="gender-male">남성</label>
+            </div>
+            <div>
+              <input type="radio" id="gender-female" name="gender" value="female" class="mr-2" />
+              <label for="gender-female">여성</label>
+            </div>
+            <div>
+              <input type="radio" id="gender-other" name="gender" value="other" class="mr-2" />
+              <label for="gender-other">기타</label>
+            </div>
+          </div>
+        </div>
+        <div class="mb-4 text-center">
+          <button type="submit" class="w-full rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700">
+            회원가입
+          </button>
+        </div>
+        <div class="text-center">
+          <span class="text-sm text-gray-700">이미 회원이신가요? </span>
+          <a href="./login.html" class="text-sm text-blue-500 hover:text-blue-700">로그인</a>
+          <p>
+            <a href="./index.html" class="text-sm text-blue-500 hover:text-blue-700">메인으로 이동</a>
+          </p>
+        </div>
+      </form>
+    </section>
+
+    <footer class="bg-gray-100 p-4 text-center">
+      <p>&copy; 2023 Infinity Scroll. All rights reserved.</p>
+    </footer>
+  </body>
+</html>
