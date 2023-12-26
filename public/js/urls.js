@@ -5,7 +5,7 @@ const loginurl = url + '/accounts/login/'
 const roomlisturl = url + "/chat/roomlist/"
 const roomdeleteurl = url + "/chat/roominvisible/"
 const chathistoryurl = url + "/chat/"
-const chatws =  "ws://127.0.0.1:8000/ws/chat/"
+const chatws =  "wss://www.infinity-travel.shop/ws/chat/"
 
 
 
