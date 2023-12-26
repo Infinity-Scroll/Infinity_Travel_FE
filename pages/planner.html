@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>일정 페이지</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.1/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../dist/output.css" />
+</head>
+
+<body class="flex min-h-screen flex-col bg-white">
+  <header class="fixed left-0 right-0 top-0 z-50 bg-gray-200 p-6">
+    <nav class="flex items-center justify-between">
+      <div class="logo"><a href="./index.html">Infinity Scroll</a></div>
+      <ul class="ml-8 flex space-x-4">
+        <li><a href="./companion.html">동행</a></li>
+        <li><a href="./planner.html">일정</a></li>
+      </ul>
+      <div class="login-icons ml-auto">
+        <a href="./profile.html">마이페이지</a>
+        <a href="./login.html">로그인</a>
+        <span> | </span>
+        <a href="./signup.html">회원가입</a>
+        <a href="">글쓰기</a>
+      </div>
+    </nav>
+  </header>
+
+  <section class="pb-6 pt-24">
+    <section class="slider relative mb-10 h-80 bg-gray-300">
+      <div class="flex h-full items-center justify-center">이미지 영역</div>
+      <!-- 검색 바 추가 -->
+      <div class="absolute left-1/2 right-0 top-1/2 -translate-x-1/2 -translate-y-1/2 transform justify-center">
+        <input
+          id="searchInput"
+          type="search"
+          class="form-input block h-14 w-full rounded p-2"
+          placeholder="어느 나라, 도시로 떠나시나요?"
+          onkeypress="searchPlanners()"
+        />
+      </div>
+      <!-- 검색 바 끝 -->
+    </section>
+
+    <section class="mx-auto w-full max-w-screen-2xl p-4">
+      <div class="mb-4 flex flex-wrap justify-end gap-2">
+        <button class="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700">모든 국가</button>
+      </div>
+
+      <!-- 여행카드 -->
+      <div id="planner-grid" class="grid grid-cols-1 gap-4 lg:grid-cols-4"></div>
+
+      <!-- 여행카드 끝 -->
+
+    </section>
+  </section>
+
+  <footer class="mt-auto bg-gray-100 p-4 text-center">
+    <div class="container mx-auto">
+      <p>&copy; 2023 Infinity Scroll. All rights reserved.</p>
+    </div>
+  </footer>
+  <script>
+    // 여기서 handleEnterKey 함수를 정의합니다.
+    function handleEnterKey(event) {
+      if (event.key === "Enter") {
+        searchPlanners();
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      // 여행카드가 들어갈 그리드 요소
+      const plannerGrid = document.getElementById("planner-grid");
+
+      // API에서 데이터를 가져와서 그리드에 추가하는 함수
+      async function fetchAndRenderPlanners(searchTerm) {
+        try {
+          const apiUrl = `http://localhost:8000/schedule/api/planners/?search=${searchTerm}`;
+          const response = await fetch(apiUrl);
+          const planners = await response.json();
+          renderPlanners(planners);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      }   
+
+
+      // 여행카드를 그리드에 추가하는 함수
+      function renderPlanners(planners) {
+        const plannerGrid = document.getElementById("planner-grid");
+        plannerGrid.innerHTML = "";
+        for (let i = 0; i < Math.min(planners.length, 8); i++) {
+          const planner = planners[i];
+          const card = createPlannerCard(planner);
+          plannerGrid.appendChild(card);
+        }
+      }
+
+      // 여행카드를 생성하는 함수
+      function createPlannerCard(planner) {
+        // 여행카드 요소 생성
+        const card = document.createElement("div");
+        card.classList.add("rounded", "bg-gray-100", "p-4", "shadow");
+
+        // 지도 API 내용 표시 영역
+        const mapContainer = document.createElement("div");
+        mapContainer.classList.add("map-container", "mb-2", "flex", "h-40", "w-full", "items-center", "justify-center", "bg-gray-300");
+        mapContainer.innerHTML = "<span>지도 API 내용</span>";
+
+        // 여행지 정보
+        const travelInfo = document.createElement("div");
+        travelInfo.classList.add("travel-info", "mb-2");
+        travelInfo.innerHTML = `<h3 class="font-bold">${planner.area}</h3><p class="text-sm">${planner.name}</p>`;
+
+        // 날짜별 여행 정보
+        const dateInfo = document.createElement("div");
+        dateInfo.classList.add("date-info", "mb-2");
+        dateInfo.innerHTML = `<h4 class="font-semibold">여행 날짜</h4><p class="text-sm">${planner.start_date} - ${planner.end_date}</p>`;
+
+        // 장소 정보 (첫 번째 장소만 표시)
+        const placeInfo = document.createElement("div");
+        placeInfo.classList.add("place-info", "mb-2");
+
+        if (planner.period_events.length > 0 && planner.period_events[0].date_events.length > 0) {
+          const firstDateEvent = planner.period_events[0].date_events[0];
+          const placeName = firstDateEvent.place.length > 0 ? firstDateEvent.place[0].name : "입력된 장소가 없습니다.";
+
+          placeInfo.innerHTML = `
+            <div class="flex items-center">
+              <div class="place-image mr-2 flex h-20 w-20 items-center justify-center bg-gray-300">
+                <span>장소 이미지</span>
+              </div>
+              <div class="place-details">
+                <h5 class="font-semibold">장소 이름</h5>
+                <p class="text-sm">${placeName}</p>
+              </div>
+            </div>
+          `;
+        }
+
+        // 버튼
+        const buttons = document.createElement("div");
+        buttons.classList.add("buttons", "flex", "justify-end", "space-x-2");
+        buttons.innerHTML = `
+          <button class="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600">담기</button>
+          <button class="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600">상세보기</button>
+        `;
+
+        // 생성한 요소들을 여행카드에 추가
+        card.appendChild(mapContainer);
+        card.appendChild(travelInfo);
+        card.appendChild(dateInfo);
+        card.appendChild(placeInfo);
+        card.appendChild(buttons);
+
+        return card;
+      }
+
+      // Enter 키를 눌렀을 때 호출되는 함수
+      function handleEnterKey(event) {
+        if (event.key === "Enter") {
+          searchPlanners();
+        }
+      }
+
+      // 초기에 데이터를 불러와서 그리드에 표시
+      fetchAndRenderPlanners("");
+    });
+  </script>
+</body>
+
+</html>
