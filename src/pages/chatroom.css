@@ -6,52 +6,15 @@
 }
 
 .mine {
-  align-self: flex-end;
-  text-align: right;
-  margin-top: 2px;
   background-color: #dcf8c6;
-  display: flex;
 }
 
 .theirs {
-  align-self: flex-start;
-  text-align: left;
   background-color: #fff;
-  display: flex;
 }
 
 .profile-pic {
   width: 40px;
   height: 40px;
-  border-radius: 50%;
-  margin-right: 10px;
-}
-
-.chat-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-}
-
-/* 상대방 메시지 스타일링 */
-.theirs {
-  max-width: 70%;
-  padding: 8px;
-  margin: 4px 0;
-  border-radius: 10px;
-  background-color: #fff;
-}
-
-/* 프로필 사진 스타일링 */
-.profile-pic {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-}
-
-/* 채팅 메시지 시간 스타일 */
-.chat-message .text-xs {
-  display: block; /* 또는 inline-block; 채팅 메시지에 따라 조절 */
-  margin-top: 4px;
-  color: #718096; /* Tailwind CSS의 gray-600 */
+  border-radius: 40%;
 }
