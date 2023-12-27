@@ -1,4 +1,4 @@
-const url = "https://www.infinity-travel.shop"
+const url = "http://www.infinity-travel.shop"
 const mydataurl = url + "/accounts/"
 const signupurl = url + '/accounts/create/'
 const loginurl = url + '/accounts/login/'
@@ -9,6 +9,6 @@ const chatws =  "wss://www.infinity-travel.shop/ws/chat/"
 
 
 
-const page = "https://www.infinity-travel.shop/front/pages"
+const page = "http://www.infinity-travel.shop/front/pages"
 const loginpage = page + "/login.html"
 const mainpage = page + "/index.html"
