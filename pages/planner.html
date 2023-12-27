@@ -37,7 +37,8 @@
           type="search"
           class="form-input block h-14 w-full rounded p-2"
           placeholder="어느 나라, 도시로 떠나시나요?"
-          onkeypress="searchPlanners()"
+          oninput="searchPlanners()"
+          onkeypress="handleEnterKey(event)"
         />
       </div>
       <!-- 검색 바 끝 -->
@@ -62,6 +63,18 @@
     </div>
   </footer>
   <script>
+    // 검색 함수를 전역으로 정의합니다.
+    async function searchPlanners() {
+      try {
+        const searchInput = document.getElementById('searchInput');
+        const searchTerm = searchInput.value.trim();
+
+        await fetchAndRenderPlanners(searchTerm);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
     // 여기서 handleEnterKey 함수를 정의합니다.
     function handleEnterKey(event) {
       if (event.key === "Enter") {
@@ -76,7 +89,7 @@
       // API에서 데이터를 가져와서 그리드에 추가하는 함수
       async function fetchAndRenderPlanners(searchTerm) {
         try {
-          const apiUrl = `http://localhost:8000/schedule/api/planners/?search=${searchTerm}`;
+          const apiUrl = `http://localhost:8000/schedule/api/planners/?name=${searchTerm}`;
           const response = await fetch(apiUrl);
           const planners = await response.json();
           renderPlanners(planners);
@@ -84,7 +97,6 @@
           console.error("Error fetching data:", error);
         }
       }   
-
 
       // 여행카드를 그리드에 추가하는 함수
       function renderPlanners(planners) {
@@ -155,13 +167,6 @@
         card.appendChild(buttons);
 
         return card;
-      }
-
-      // Enter 키를 눌렀을 때 호출되는 함수
-      function handleEnterKey(event) {
-        if (event.key === "Enter") {
-          searchPlanners();
-        }
       }
 
       // 초기에 데이터를 불러와서 그리드에 표시

@@ -30,186 +30,157 @@
     <h1 class="text-3xl font-bold mb-4">장소 선택</h1>
 
     <!-- 장소 검색 -->
-<div class="mb-4">
-    <label for="searchInput" class="block text-sm font-medium text-gray-600">장소 검색</label>
-    <input
-      id="searchInput"
-      type="text"
-      placeholder="장소를 검색하세요"
-      class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300"
-      oninput="searchPlaces(this.value)"
-    />
-  </div>
+    <div class="mb-4">
+      <label for="searchInput" class="block text-sm font-medium text-gray-600">장소 검색</label>
+      <input
+        id="searchInput"
+        type="text"
+        placeholder="장소를 검색하세요"
+        class="mt-1 p-2 border rounded-md w-full focus:outline-none focus:ring focus:border-blue-300"
+        oninput="searchPlaces(this.value)"
+      />
+    </div>
 
     <!-- 장소 검색 결과 표시 -->
-<div class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" id="place-list"></div>
+    <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" id="place-list"></div>
 
-<!-- 선택한 장소 목록 -->
-<div id="selectedPlaces" class="mt-4">
-    <h2 class="text-xl font-semibold mb-2">선택한 장소</h2>
-    <ul id="selectedPlacesList" class="list-disc pl-4"></ul>
-  </div>
+    <!-- 선택한 장소 목록 -->
+    <div id="selectedPlaces" class="mt-4">
+      <h2 class="text-xl font-semibold mb-2">선택한 장소</h2>
+      <ul id="selectedPlacesList" class="list-disc pl-4"></ul>
+    </div>
 
-<!-- 확인 버튼 -->
-<button id="confirmButton" onclick="confirmSelectedPlaces()" class="mt-4 p-2 bg-blue-500 text-white rounded-md">확인</button>
+    <!-- 확인 버튼 -->
+    <button id="confirmButton" onclick="confirmSelectedPlaces()" class="mt-4 p-2 bg-blue-500 text-white rounded-md">확인</button>
+  </section>
 
-<!-- 데이터를 가져오고 표시하기 위한 JavaScript 코드 추가 -->
-<script>
-  // 장소 검색 함수
-  async function searchPlaces(query) {
-    try {
-      const response = await fetch(`http://localhost:8000/place/api/places/?search=${query}`);
-      const places = await response.json();
-      console.log(places);
+  <!-- 데이터를 가져오고 표시하기 위한 JavaScript 코드 추가 -->
+  <script>
+    // 장소 검색 함수
+async function searchPlaces() {
+  try {
+    const searchInput = document.getElementById('searchInput');
+    const searchTerm = searchInput.value.trim();
 
-      const placeList = document.getElementById('place-list');
+    const response = await fetch(`http://localhost:8000/place/api/places/?name=${searchTerm}`);
+    const places = await response.json();
+    
+    console.log(places);
 
-      // 요소가 존재하는지 확인
-      if (!placeList) {
-        console.error('place-list 요소를 찾을 수 없습니다.');
-        return;
-      }
+    const placeList = document.getElementById('place-list');
 
-      // 기존의 장소를 제거
-      placeList.innerHTML = '';
+    // 요소가 존재하는지 확인
+    if (!placeList) {
+      console.error('place-list 요소를 찾을 수 없습니다.');
+      return;
+    }
 
-      // 장소를 동적으로 추가
-      places.forEach(place => {
-        const placeCard = document.createElement('div');
-        placeCard.className = 'p-4 border border-gray-300 rounded';
+    // 기존의 장소를 제거
+    placeList.innerHTML = '';
 
-        // 체크박스 추가
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.value = place.id;
-        checkbox.addEventListener('change', () => selectPlace(place.id, place.name));
+    // 장소를 동적으로 추가
+    places.forEach(place => {
+      const placeCard = document.createElement('div');
+      placeCard.className = 'p-4 border border-gray-300 rounded';
 
-        placeCard.appendChild(checkbox);
+      // 이미지 추가
+      const placeImage = document.createElement('img');
+      placeImage.src = place.image_url;
+      placeImage.alt = place.name;
+      placeImage.className = 'w-full h-32 object-cover mb-2';
 
-        // 장소 정보 추가
-        placeCard.innerHTML += `
-          <h2 class="text-xl font-bold">${place.name}</h2>
-          <p class="text-gray-600">${place.address}</p>
-        `;
-
-        placeList.appendChild(placeCard);
-        console.log(placeCard);
+      // 체크박스 추가
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.value = place.id;
+      checkbox.style.width = '2em'; // 크기 2배로 늘리기
+      checkbox.style.height = '2em';
+      checkbox.style.float = 'right'; // 오른쪽 정렬
+      checkbox.addEventListener('change', () => {
+        selectPlace(place.id, place.name);
       });
-    } catch (error) {
-      console.error('장소 검색 중 오류 발생:', error);
-    }
-  }
 
-  // 페이지 로드 시 장소를 가져와서 표시
-  document.addEventListener('DOMContentLoaded', () => searchPlaces(''));
-  
-    // 선택한 장소를 저장하는 배열
-  const selectedPlaces = [];
+      // 장소 정보 추가
+      const placeInfo = document.createElement('div');
+      placeInfo.innerHTML = `
+        <h2 class="text-xl font-bold">${place.name}</h2>
+        <p class="text-gray-600">${place.address}</p>
+        <!-- 이미지 추가 -->
+        <img src="${place.image_url}" alt="${place.name}" class="w-full h-32 object-cover mb-2">
+      `;
 
-  // 장소 선택 함수
-  function selectPlace(placeId, placeName) {
-    // 이미 선택한 장소인지 확인
-    const index = selectedPlaces.findIndex(place => place.id === placeId);
+      placeCard.appendChild(checkbox);
+      placeCard.appendChild(placeInfo);
 
-    if (index === -1) {
-      selectedPlaces.push({ id: placeId, name: placeName });
-      alert('장소가 선택되었습니다.');
-    } else {
-      selectedPlaces.splice(index, 1);
-      alert('장소 선택이 해제되었습니다.');
-    }
-
-    // 선택한 장소 목록 업데이트
-    updateSelectedPlacesList();
-  }
-
-  // 선택한 장소 목록 업데이트 함수
-  function updateSelectedPlacesList() {
-    const selectedPlacesList = document.getElementById('selectedPlacesList');
-
-    // 기존의 목록을 제거
-    selectedPlacesList.innerHTML = '';
-
-    // 선택한 장소를 목록에 추가
-    selectedPlaces.forEach(place => {
-      const listItem = document.createElement('li');
-      listItem.textContent = place.name;
-      selectedPlacesList.appendChild(listItem);
+      placeList.appendChild(placeCard);
     });
+  } catch (error) {
+    console.error('장소 검색 중 오류 발생:', error);
   }
+}
+    // 페이지 로드 시 장소를 가져와서 표시
+    document.addEventListener('DOMContentLoaded', () => searchPlaces(''));
 
-  // 확인 버튼 클릭 시 호출되는 함수
-  async function confirmSelectedPlaces() {
-    try {
-      // 선택한 장소들을 서버로 업데이트
-      const dateEventId = 1; // 적절한 DateEvent ID로 설정
-      const response = await fetch(`http://localhost:8000/api/date-events/${dateEventId}/update-places/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ place_ids: selectedPlaces.map(place => place.id) }),
-      });
+    // 선택한 장소를 저장하는 배열
+    const selectedPlaces = [];
 
-      if (response.ok) {
-        alert('선택한 장소가 업데이트되었습니다.');
-        // 추가적인 로직 수행
+    // 장소 선택 함수
+    function selectPlace(placeId, placeName) {
+      // 이미 선택한 장소인지 확인
+      const index = selectedPlaces.findIndex(place => place.id === placeId);
+
+      if (index === -1) {
+        selectedPlaces.push({ id: placeId, name: placeName });
+        alert('장소가 선택되었습니다.');
       } else {
-        alert('장소 업데이트에 실패했습니다.');
+        selectedPlaces.splice(index, 1);
+        alert('장소 선택이 해제되었습니다.');
       }
-    } catch (error) {
-      console.error('장소 업데이트 중 오류 발생:', error);
+
+      // 선택한 장소 목록 업데이트
+      updateSelectedPlacesList();
     }
-  }
 
-  // 장소 리스트를 받아오고 화면에 표시하는 함수
-  async function loadPlaces() {
-    try {
-      const response = await fetch('http://localhost:8000/place/api/places/');
-      const places = await response.json();
-      console.log(places);
+    // 선택한 장소 목록 업데이트 함수
+    function updateSelectedPlacesList() {
+      const selectedPlacesList = document.getElementById('selectedPlacesList');
 
-      const placeList = document.getElementById('place-list');
+      // 기존의 목록을 제거
+      selectedPlacesList.innerHTML = '';
 
-      // 요소가 존재하는지 확인
-      if (!placeList) {
-        console.error('place-list 요소를 찾을 수 없습니다.');
-        return;
-      }
-
-      // 기존의 장소를 제거
-      placeList.innerHTML = '';
-
-      // 장소를 동적으로 추가
-      places.forEach(place => {
-        const placeCard = document.createElement('div');
-        placeCard.className = 'p-4 border border-gray-300 rounded';
-
-        // 체크박스 추가
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.value = place.id;
-        checkbox.addEventListener('change', () => selectPlace(place.id, place.name));
-
-        placeCard.appendChild(checkbox);
-
-        // 장소 정보 추가
-        placeCard.innerHTML += `
-          <h2 class="text-xl font-bold">${place.name}</h2>
-          <p class="text-gray-600">${place.address}</p>
-        `;
-
-        placeList.appendChild(placeCard);
-        console.log(placeCard);
+      // 선택한 장소를 목록에 추가
+      selectedPlaces.forEach(place => {
+        const listItem = document.createElement('li');
+        listItem.textContent = place.name;
+        selectedPlacesList.appendChild(listItem);
       });
-    } catch (error) {
-      console.error('장소 목록을 불러오는 중 오류 발생:', error);
     }
-  }
 
-  // 페이지 로드 시 장소를 가져와서 표시
-  document.addEventListener('DOMContentLoaded', loadPlaces);
-</script>
+    // 확인 버튼 클릭 시 호출되는 함수
+   function confirmSelectedPlaces() {
+      try {
+        // 선택한 장소들을 서버로 업데이트
+        const dateEventId = 1; // 적절한 DateEvent ID로 설정
+        const response = fetch(`http://localhost:8000/api/date-events/${dateEventId}/update-places/`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ place_ids: selectedPlaces.map(place => place.id) }),
+        });
+
+        if (response.ok) {
+          alert('선택한 장소가 업데이트되었습니다.');
+          // 추가적인 로직 수행
+        } else {
+          alert('장소 업데이트에 실패했습니다.');
+        }
+      } catch (error) {
+        console.error('장소 업데이트 중 오류 발생:', error);
+      }
+    }
+
+  </script>
 </body>
 
 </html>
