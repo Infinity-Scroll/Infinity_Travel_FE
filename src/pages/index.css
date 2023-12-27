@@ -1,0 +1,36 @@
+.item {
+  background-size: cover;
+  background-position: center;
+}
+
+/* 반투명 배경 레이어 스타일 */
+.text-background {
+  background-color: rgba(0, 0, 0, 0.5); /* 검은색 배경에 60% 투명도 */
+  padding: 5px; /* 텍스트 주변 여백 */
+  border-radius: 4px; /* 경계선 둥글게 */
+}
+
+.japan {
+  background-image: url('../../public/assets/images/japan.jpg');
+}
+
+.korea {
+  background-image: url('../../public/assets/images/korea.jpg');
+}
+
+.mongolia {
+  background-image: url('../../public/assets/images/mongolia.jpg');
+}
+
+.vietnam {
+  background-image: url('../../public/assets/images/vietnam.jpg');
+}
+
+.itinerary {
+  background-image: url('../../public/assets/images/itinerary.jpg');
+}
+
+.companion {
+  background-image: url('../../public/assets/images/companion.jpg');
+  background-position: 50% 60%;
+}

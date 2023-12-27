@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Travel Planner</title>
+    <link rel="stylesheet" href="../dist/output.css" />
+  </head>
+  <body class="flex min-h-screen cursor-default flex-col overflow-y-scroll bg-white">
+    <header class="fixed left-0 right-0 top-0 z-50 bg-gray-200 py-6">
+      <div class="mx-auto max-w-screen-2xl">
+        <nav class="flex items-center justify-between px-4">
+          <div class="logo">
+            <a href="./index.html">Infinity Travel</a>
+          </div>
+          <ul class="ml-16 flex space-x-6">
+            <li><a href="./companion.html">동행</a></li>
+            <li><a href="./planner.html">일정</a></li>
+          </ul>
+          <div class="first-line:login-icons ml-auto flex gap-8">
+            <div>
+              <a href="./profile.html">마이페이지</a>
+            </div>
+            <div>
+              <a href="./login.html">로그인</a>
+              <span>|</span>
+              <a href="./signup.html">회원가입</a>
+            </div>
+            <div>
+              <a href="">글쓰기</a>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main class="mx-auto flex h-[94rem] w-full max-w-screen-xl flex-grow justify-center pb-6 pt-24">
+      <section class="flex w-full space-x-5">
+        <!-- 지도 API 영역 -->
+        <div class="flex w-1/2 items-center justify-center bg-gray-300">
+          <span>지도 API 영역</span>
+        </div>
+
+        <!-- 여행 일정 작성 영역 -->
+        <div class="flex w-1/2 flex-col items-center bg-gray-100 p-4">
+          <h1 class="mb-2 text-xl font-bold">여행 일정의 이름</h1>
+          <time class="mb-4 text-sm">2023년 1월 1일 - 2023년 1월 7일</time>
+
+          <!-- 여행지 섹션 -->
+          <div class="w-full overflow-auto">
+            <section class="flex flex-col">
+              <article class="w-full p-4">
+                <h2 class="mb-2 font-semibold">여행지 #1</h2>
+                <div class="mb-2">
+                  <p class="font-semibold">여행 일정 기간: 2023년 1월 1일 - 2023년 1월 3일</p>
+                </div>
+
+                <!-- 날짜별 섹션 -->
+                <div class="day-sectio mx-12 mb-2 flex flex-col">
+                  <h3 class="font-semibold">1일차</h3>
+                  <p class="mb-2">장소: Lorem Ipsum</p>
+                  <div class="mx-auto">
+                    <button class="mr-2 rounded bg-blue-500 px-3 py-1 text-white hover:bg-blue-600">장소 추가</button>
+                    <button class="rounded bg-green-500 px-3 py-1 text-white hover:bg-green-600">메모 추가</button>
+                  </div>
+                </div>
+              </article>
+
+              <article class="travel-destination w-full p-4">
+                <h2 class="mb-2 font-semibold">여행지 #2</h2>
+                <div class="mb-2">
+                  <p class="font-semibold">여행 일정 기간: 2023년 1월 1일 - 2023년 1월 3일</p>
+                </div>
+
+                <div class="mx-12 mb-2 flex flex-col justify-center">
+                  <h3 class="font-semibold">1일차</h3>
+                  <p class="mb-2">장소: Lorem Ipsum</p>
+                  <div class="mx-auto">
+                    <button class="mr-2 rounded bg-blue-500 px-3 py-1 text-white hover:bg-blue-600">장소 추가</button>
+                    <button class="rounded bg-green-500 px-3 py-1 text-white hover:bg-green-600">메모 추가</button>
+                  </div>
+                </div>
+                <div class="mx-12 mb-2 flex flex-col">
+                  <h3 class="font-semibold">2일차</h3>
+                  <p class="mb-2">장소: Lorem Ipsum</p>
+                  <div class="mx-auto">
+                    <button class="mr-2 rounded bg-blue-500 px-3 py-1 text-white hover:bg-blue-600">장소 추가</button>
+                    <button class="rounded bg-green-500 px-3 py-1 text-white hover:bg-green-600">메모 추가</button>
+                  </div>
+                </div>
+                <div class="mx-12 mb-2 flex flex-col">
+                  <h3 class="font-semibold">3일차</h3>
+                  <p class="mb-2">장소: Lorem Ipsum</p>
+                  <div class="mx-auto">
+                    <button class="mr-2 rounded bg-blue-500 px-3 py-1 text-white hover:bg-blue-600">장소 추가</button>
+                    <button class="rounded bg-green-500 px-3 py-1 text-white hover:bg-green-600">메모 추가</button>
+                  </div>
+                </div>
+              </article>
+
+              <!-- 여행지 섹션 추가 버튼 -->
+              <button class="mt-auto rounded bg-purple-500 px-4 py-2 text-white hover:bg-purple-600">
+                여행지 섹션 추가
+              </button>
+            </section>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- 푸터 -->
+    <footer class="mt-auto bg-white p-4 text-center shadow-md">
+      <p>&copy; 2023 Infinity Travel.</p>
+    </footer>
+  </body>
+</html>

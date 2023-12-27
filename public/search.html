@@ -6,37 +6,26 @@
     <title>동행 페이지</title>
     <link rel="stylesheet" href="../dist/output.css" />
   </head>
-  <body class="flex min-h-screen flex-col bg-white">
-    <header class="fixed left-0 right-0 top-0 z-50 bg-gray-200 py-6">
+  <body class="flex min-h-screen cursor-default flex-col overflow-y-scroll bg-white">
+    <header class="fixed left-0 right-0 top-0 z-50 bg-white py-6 shadow-md">
       <div class="mx-auto max-w-screen-2xl">
         <nav class="flex items-center justify-between px-4">
           <div class="logo">
-            <a href="./index.html">Infinity Travel</a>
+            <a href="./index.html" class="text-lg font-bold">Infinity Travel</a>
           </div>
           <ul class="ml-16 flex space-x-6">
             <li><a href="./companion.html">동행</a></li>
             <li><a href="./planner.html">일정</a></li>
-            <li><a href="./search.html">검색</a></li>
-            <li><a href="./chatroom.html">채팅방</a></li>
           </ul>
-          <div class="first-line:login-icons ml-auto flex gap-8">
-            <div>
-              <a href="./profile.html">마이페이지</a>
-            </div>
-            <div>
-              <a href="./login.html">로그인</a>
-              <span>|</span>
-              <a href="./signup.html">회원가입</a>
-            </div>
-            <div>
-              <a href="">글쓰기</a>
-            </div>
+          <div class="login-icons ml-auto flex gap-8">
+            <div class="login-logout-buttons"></div>
+            <a href="">글쓰기</a>
           </div>
         </nav>
       </div>
     </header>
 
-    <main class="pb-6 pt-24">
+    <main class="fade-in px-4 pb-6 pt-24">
       <section class="slider relative mb-10 h-96 bg-gray-300">
         <div class="flex h-full items-center justify-center">이미지 영역</div>
         <div class="absolute left-1/2 top-1/2 w-2/5 -translate-x-1/2 -translate-y-1/2 transform justify-center">
@@ -318,10 +307,9 @@
       </section>
     </main>
 
-    <footer class="mt-auto bg-gray-100 p-4 text-center">
-      <div class="container mx-auto">
-        <p>&copy; 2023 Infinity Scroll. All rights reserved.</p>
-      </div>
+    <!-- 푸터 -->
+    <footer class="mt-auto bg-white p-4 text-center shadow-md">
+      <p>&copy; 2023 Infinity Travel.</p>
     </footer>
   </body>
 </html>
