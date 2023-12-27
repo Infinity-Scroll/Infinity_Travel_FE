@@ -37,11 +37,17 @@
           <div class="slide slider-6"></div>
         </div>
         <div class="absolute left-1/2 top-1/2 w-2/5 -translate-x-1/2 -translate-y-1/2 transform justify-center">
-          <input
-            type="search"
-            class="form-input z-40 block h-16 w-full rounded-2xl border-none p-4 text-xl shadow-md"
-            placeholder="어느 나라, 도시로 떠나시나요?"
-          />
+          <div
+            class="z-40 flex h-16 w-full items-center rounded-2xl border-2 border-white bg-white px-4 text-xl shadow-md focus-within:border-blue-500"
+          >
+            <span class="text-xl">🔍</span>
+            <input
+              type="search"
+              class="h-full flex-1 p-4 focus:outline-none"
+              placeholder="어느 나라, 도시로 떠나시나요?"
+            />
+            <button class="h-[60%] w-[13%] rounded-2xl bg-blue-500 px-4 text-xl text-white">검색</button>
+          </div>
         </div>
       </section>
 
@@ -471,10 +477,9 @@
       </section>
     </main>
 
-    <footer class="mt-auto bg-gray-100 p-4 text-center">
-      <div class="container mx-auto">
-        <p>&copy; 2023 Infinity Scroll. All rights reserved.</p>
-      </div>
+    <!-- 푸터 -->
+    <footer class="mt-auto bg-white p-4 text-center shadow-md">
+      <p>&copy; 2023 Infinity Travel.</p>
     </footer>
     <script src="../src/js/main.js"></script>
   </body>

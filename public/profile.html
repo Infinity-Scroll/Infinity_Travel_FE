@@ -1,106 +1,128 @@
 <!doctype html>
 <html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>마이페이지</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.1/dist/tailwind.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/dist/output.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>마이페이지</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.1/dist/tailwind.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="/dist/output.css" />
-</head>
-
-<body class="flex min-h-screen flex-col bg-white">
-  <header class="fixed left-0 right-0 top-0 z-50 bg-gray-200 p-6">
-    <nav class="flex items-center justify-between">
-      <div class="logo"><a href="./index.html">Infinity Scroll</a></div>
-      <ul class="ml-8 flex space-x-4">
-        <li><a href="./companion.html">동행</a></li>
-        <li><a href="./planner.html">일정</a></li>
-      </ul>
-      <div class="login-icons ml-auto">
-        <a href="./profile.html">마이페이지</a>
-        <a href="./login.html">로그인</a>
-        <span> | </span>
-        <a href="./signup.html">회원가입</a>
-        <a href="">글쓰기</a>
+  <body class="flex min-h-screen cursor-default flex-col overflow-y-scroll bg-white">
+    <header class="fixed left-0 right-0 top-0 z-50 bg-white py-6 shadow-md">
+      <div class="mx-auto max-w-screen-2xl">
+        <nav class="flex items-center justify-between px-4">
+          <div class="logo">
+            <a href="./index.html" class="text-lg font-bold">Infinity Travel</a>
+          </div>
+          <ul class="ml-16 flex space-x-6">
+            <li><a href="./companion.html">동행</a></li>
+            <li><a href="./planner.html">일정</a></li>
+          </ul>
+          <div class="login-icons ml-auto flex gap-8">
+            <div class="login-logout-buttons"></div>
+            <a href="">글쓰기</a>
+          </div>
+        </nav>
       </div>
-    </nav>
-  </header>
+    </header>
 
-
-  <main class="items mx-auto flex w-full max-w-screen-2xl pb-6 pt-24">
-    <!-- 메인 컨텐츠 -->
-    <section class="w-3/4 rounded bg-gray-100 p-4 shadow">
-      <div class="mb-4 flex items-center">
-        <div class="w-2/3">
-          <img class="profile-image w-64 h-64 rounded-full cursor-pointer mb-6" src="../public/img/default_profile.jpg"
-            alt="">
-          <label for="profile-input" class="mb-2 block text-lg font-bold">프로필 이미지 변경</label>
-          <input type="file" id="profile-input" name="profile-input" class="hidden w-full rounded border px-3 py-2"
-            accept="image/*" />
-        </div>
-      </div>
-
-      <div class="mb-4">
-        <label for="nickname" class="mb-2 block text-lg font-bold">닉네임</label>
-        <input type="text" id="nickname" name="nickname"
-          class="w-full rounded border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200" />
-      </div>
-
-      <div class="mb-6">
-        <label for="introduction" class="mb-2 block text-lg font-bold">소개글</label>
-        <textarea id="introduction" name="introduction" rows="4" class="w-full rounded border px-3 py-2"></textarea>
-      </div>
-
-      <div class="mb-4 flex">
-        <div class="flex-grow">
-          <label for="email" class="mb-2 block text-lg font-bold">이메일</label>
-          <div class="flex items-center gap-2">
-            <input type="email" id="email" name="email"
-              class="w-full flex-1 rounded border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200"
-              required />
-
+    <main class="fade-in px-4 pb-6 pt-24">
+      <!-- 메인 컨텐츠 -->
+      <section class="w-3/4 rounded bg-gray-100 p-4 shadow">
+        <div class="mb-4 flex items-center">
+          <div class="w-2/3">
+            <img
+              class="profile-image mb-6 h-64 w-64 cursor-pointer rounded-full"
+              src="../public/img/default_profile.jpg"
+              alt=""
+            />
+            <label for="profile-input" class="mb-2 block text-lg font-bold">프로필 이미지 변경</label>
+            <input
+              type="file"
+              id="profile-input"
+              name="profile-input"
+              class="hidden w-full rounded border px-3 py-2"
+              accept="image/*"
+            />
           </div>
         </div>
-      </div>
-      <div class="mb-4">
-        <label for="birthdate" class="mb-2 block text-lg font-bold">생년월일</label>
-        <input type="date" id="birthdate" name="birthdate"
-          class="w-full rounded border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200" required />
-      </div>
 
-      <div class="mb-6">
-        <label for="gender" class="mb-2 block text-lg font-bold">성별</label>
-        <input type="gender" id="gender" name="gender"
-          class="w-full flex-1 rounded border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200" />
-      </div>
+        <div class="mb-4">
+          <label for="nickname" class="mb-2 block text-lg font-bold">닉네임</label>
+          <input
+            type="text"
+            id="nickname"
+            name="nickname"
+            class="w-full rounded border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200"
+          />
+        </div>
 
-      <div class="text-center">
-        <button type="submit"
-          class="profile-change rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700">
-          정보 업데이트
-        </button>
-      </div>
+        <div class="mb-6">
+          <label for="introduction" class="mb-2 block text-lg font-bold">소개글</label>
+          <textarea id="introduction" name="introduction" rows="4" class="w-full rounded border px-3 py-2"></textarea>
+        </div>
 
-    </section>
+        <div class="mb-4 flex">
+          <div class="flex-grow">
+            <label for="email" class="mb-2 block text-lg font-bold">이메일</label>
+            <div class="flex items-center gap-2">
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="w-full flex-1 rounded border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                required
+              />
+            </div>
+          </div>
+        </div>
+        <div class="mb-4">
+          <label for="birthdate" class="mb-2 block text-lg font-bold">생년월일</label>
+          <input
+            type="date"
+            id="birthdate"
+            name="birthdate"
+            class="w-full rounded border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200"
+            required
+          />
+        </div>
 
-    <!-- 사이드 메뉴 -->
-    <aside class="w-1/4 pl-4">
-      <ul class="rounded bg-gray-200 p-4 shadow">
-        <li class="mb-2"><a href="/account" class="block text-blue-500 hover:text-blue-700">내 계정 관리</a></li>
-        <li class="mb-2"><a href="/my-plans" class="block text-blue-500 hover:text-blue-700">내 일정 관리</a></li>
-        <li><a href="/my-companions" class="block text-blue-500 hover:text-blue-700">내 동행 모집 관리</a></li>
-      </ul>
-    </aside>
-  </main>
+        <div class="mb-6">
+          <label for="gender" class="mb-2 block text-lg font-bold">성별</label>
+          <input
+            type="gender"
+            id="gender"
+            name="gender"
+            class="w-full flex-1 rounded border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200"
+          />
+        </div>
 
-  <footer class="mt-auto bg-gray-100 p-4 text-center">
-    <div class="container mx-auto">
-      <p>&copy; 2023 Infinity Scroll. All rights reserved.</p>
-    </div>
-  </footer>
-</body>
-<script src="../src/js/urls.js"></script>
-<script src="../src/js/profile.js"></script>
+        <div class="text-center">
+          <button
+            type="submit"
+            class="profile-change rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+          >
+            정보 업데이트
+          </button>
+        </div>
+      </section>
 
+      <!-- 사이드 메뉴 -->
+      <aside class="w-1/4 pl-4">
+        <ul class="rounded bg-gray-200 p-4 shadow">
+          <li class="mb-2"><a href="/account" class="block text-blue-500 hover:text-blue-700">내 계정 관리</a></li>
+          <li class="mb-2"><a href="/my-plans" class="block text-blue-500 hover:text-blue-700">내 일정 관리</a></li>
+          <li><a href="/my-companions" class="block text-blue-500 hover:text-blue-700">내 동행 모집 관리</a></li>
+        </ul>
+      </aside>
+    </main>
+
+    <!-- 푸터 -->
+    <footer class="mt-auto bg-white p-4 text-center shadow-md">
+      <p>&copy; 2023 Infinity Travel.</p>
+    </footer>
+  </body>
+  <script src="../src/js/urls.js"></script>
+  <script src="../src/js/profile.js"></script>
 </html>

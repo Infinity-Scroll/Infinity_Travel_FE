@@ -11,11 +11,15 @@ function showSlide() {
   currentSlide = (currentSlide + 1) % totalSlides;
 }
 
-setInterval(showSlide, 5000); // 5초마다 슬라이드 변경
-
 document.addEventListener('DOMContentLoaded', function () {
-  const isLoggedIn = false; // 로그인 상태 시뮬레이션, 실제 구현에서는 서버로부터 상태를 가져오거나 쿠키/로컬 스토리지를 확인합니다.
+  // 즉시 첫 번째 슬라이드를 표시
+  showSlide();
 
+  // 이후 5초마다 슬라이드 변경
+  setInterval(showSlide, 5000);
+
+  // 로그인/로그아웃 버튼 로직
+  const isLoggedIn = true;
   const loginLogoutButtons = document.querySelector('.login-logout-buttons');
 
   if (isLoggedIn) {

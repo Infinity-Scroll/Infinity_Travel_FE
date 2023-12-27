@@ -26,7 +26,7 @@
       </div>
     </header>
 
-    <main class="px-4 pb-6 pt-24">
+    <main class="fade-in px-4 pb-6 pt-24">
       <!-- 이미지 슬라이드 및 검색창 -->
       <section class="relative mx-auto mb-10 h-96 max-w-screen-2xl">
         <div class="slider h-full rounded-2xl">
@@ -37,12 +37,19 @@
           <div class="slide slider-5"></div>
           <div class="slide slider-6"></div>
         </div>
-        <div class="absolute left-1/2 top-[22rem] w-2/5 -translate-x-1/2 transform">
-          <input
-            type="search"
-            class="form-input z-40 block h-16 w-full rounded-2xl border-none p-4 text-xl shadow-md"
-            placeholder="어느 나라, 도시로 떠나시나요?"
-          />
+
+        <div class="absolute left-1/2 top-[22rem] w-2/5 -translate-x-1/2">
+          <div
+            class="z-40 flex h-16 w-full items-center rounded-2xl border-2 border-white bg-white px-4 text-xl shadow-md focus-within:border-blue-500"
+          >
+            <span class="text-xl">🔍</span>
+            <input
+              type="search"
+              class="h-full flex-1 p-4 focus:outline-none"
+              placeholder="어느 나라, 도시로 떠나시나요?"
+            />
+            <button class="h-[60%] w-[13%] rounded-2xl bg-blue-500 px-4 text-xl text-white">검색</button>
+          </div>
         </div>
       </section>
 
@@ -57,14 +64,14 @@
             </div>
             <div class="flex gap-4">
               <a
-                href="./profile.html"
-                class="btn-primary mt-2 w-full rounded bg-blue-400 px-4 py-2 text-center font-bold text-white hover:bg-blue-400"
+                href="./chatroom.html"
+                class="btn-primary mt-2 w-full rounded bg-blue-400 px-4 py-2 text-center font-bold text-white hover:bg-blue-600"
               >
-                채팅내용
+                채팅
               </a>
               <a
                 href="./profile.html"
-                class="btn-primary mt-2 w-full rounded bg-blue-400 px-4 py-2 text-center font-bold text-white hover:bg-blue-400"
+                class="btn-primary mt-2 w-full rounded bg-blue-400 px-4 py-2 text-center font-bold text-white hover:bg-blue-600"
               >
                 마이페이지
               </a>
@@ -91,7 +98,9 @@
           </div>
 
           <a href="./planner.html">
-            <div class="item itinerary h-32 overflow-hidden rounded border border-gray-200 bg-gray-100 p-4 shadow">
+            <div
+              class="item itinerary bg-hover-grow h-32 overflow-hidden rounded border border-gray-200 bg-gray-100 p-4 shadow"
+            >
               <span class="text-background text-white">여행 일정</span>
             </div>
           </a>
@@ -103,7 +112,7 @@
             <ul class="flex flex-col justify-center gap-1 space-y-2">
               <li class="flex gap-2">
                 <span class="w-3">1.</span>
-                <a href="./search.html?query=검색어1" class="text-gray-600 hover:text-gray-800">검색어1</a>
+                <a href="./search.html?query=검색어1" class="text-gray-600 hover:text-gray-800">이선균</a>
               </li>
               <li class="flex gap-2">
                 <span class="w-3">2.</span>
@@ -133,15 +142,15 @@
                 <p class="text-sm">23.12.27 ~ 23.12.30</p>
                 <!-- 추가 일정 정보 -->
               </div>
-              <span class="mt-auto">모집 된 동행을 확인하세요</span>
+              <span class="mt-auto">모집 중인 동행을 확인하세요</span>
             </div>
-            <a href="" class="rounded bg-blue-400 px-4 py-2 text-center font-bold text-white hover:bg-blue-400">
+            <a href="" class="rounded bg-blue-400 px-4 py-2 text-center font-bold text-white hover:bg-blue-600">
               동행 보기
             </a>
           </div>
 
           <a href="./companion.html">
-            <div class="item companion h-32 rounded border border-gray-200 bg-gray-100 p-4 shadow">
+            <div class="item companion bg-hover-grow h-32 rounded border border-gray-200 bg-gray-100 p-4 shadow">
               <span class="text-background text-white">동행</span>
             </div>
           </a>
@@ -155,25 +164,29 @@
           </div>
           <div class="grid grid-cols-4 gap-4">
             <a href="./search.html">
-              <div class="item japan col-start-1 row-span-2 h-64 rounded border border-gray-200 bg-gray-100 p-4 shadow">
+              <div
+                class="item japan bg-hover-grow col-start-1 row-span-2 h-64 rounded border border-gray-200 bg-gray-100 p-4 shadow"
+              >
                 <span class="text-background text-white">일본</span>
               </div>
             </a>
             <a href="./search.html">
-              <div class="item korea col-start-2 row-span-2 h-64 rounded border border-gray-200 bg-gray-100 p-4 shadow">
+              <div
+                class="item korea bg-hover-grow col-start-2 row-span-2 h-64 rounded border border-gray-200 bg-gray-100 p-4 shadow"
+              >
                 <span class="text-background text-white">한국</span>
               </div>
             </a>
             <a href="./search.html">
               <div
-                class="item mongolia col-start-3 row-span-2 h-64 rounded border border-gray-200 bg-gray-100 p-4 shadow"
+                class="item mongolia bg-hover-grow col-start-3 row-span-2 h-64 rounded border border-gray-200 bg-gray-100 p-4 shadow"
               >
                 <span class="text-background text-white">몽골</span>
               </div>
             </a>
             <a href="./search.html">
               <div
-                class="item vietnam col-start-4 row-span-2 h-64 rounded border border-gray-200 bg-gray-100 p-4 shadow"
+                class="item vietnam bg-hover-grow col-start-4 row-span-2 h-64 rounded border border-gray-200 bg-gray-100 p-4 shadow"
               >
                 <span class="text-background text-white">베트남</span>
               </div>

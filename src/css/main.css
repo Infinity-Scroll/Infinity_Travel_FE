@@ -46,10 +46,9 @@
   height: 100%;
   background-size: cover;
   background-position: center;
-  transition: opacity 1s ease-in-out;
+  transition: opacity 1.5s ease-in-out;
   opacity: 0;
 }
-
 .active {
   opacity: 1;
 }
@@ -68,12 +67,38 @@
 
 .slider-4 {
   background-image: url('../../public/assets/images/slider-4.jpg');
+  background-position: 50% 90%;
 }
 
 .slider-5 {
   background-image: url('../../public/assets/images/slider-5.jpg');
+  background-position: 50% 100%;
 }
 
 .slider-6 {
   background-image: url('../../public/assets/images/slider-6.jpg');
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 1s ease-in-out;
+}
+
+.bg-hover-grow {
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.bg-hover-grow:hover {
+  background-color: #e0e0e0; /* 예시 색상 */
+  transform: scale(1.03);
 }
