@@ -22,8 +22,9 @@ function showPostDetail(post_id) {
                     <img src="${post.thumbnail_image_url}" alt="Thumbnail" class="object-cover h-40 w-full">
                 </div>
                 <h3 class="mb-1 font-bold" onclick="showPostDetail(${post.id})" style="cursor: pointer;">${post.title}</h3>
-                <p class="text-sm">${post.content}
-                </p>
+                <p class="text-sm">${post.content}</p>
+                <p class="text-sm">${post.total_recruits}</p>
+                <p class="text-sm">${post.current_recruits} ${post.status}</p>
             `;
         postsContainer.appendChild(postElement);
       });
