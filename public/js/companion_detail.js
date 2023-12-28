@@ -14,6 +14,9 @@ function getAccessToken() {
 
 const accesstoken = getAccessToken();
 
+const update_button = document.getElementById('update_button');
+update_button.setAttribute('href', `./companion_update.html?post_id=${post_id}`);
+
 fetch(url+`/companion/list/${post_id}/`, {
     method: "GET",
     headers: {

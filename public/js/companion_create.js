@@ -7,13 +7,13 @@ function send_data() {
     const current_recruits = document.getElementById('current_recruits').value;
     const status = document.getElementById('status').value;
     const thumbnail_image = document.getElementById('thumbnail_image_url');
-    const selected_thumbnail_image = thumbnailInput.files[0];
+    const selected_thumbnail_image = thumbnail_image.files[0];
     const sub_image_a = document.getElementById('sub_image_url_a');
-    const selected_sub_image_a = thumbnailInput.files[0];
+    const selected_sub_image_a = sub_image_a.files[0];
     const sub_image_b = document.getElementById('sub_image_url_b');
-    const selected_sub_image_b = thumbnailInput.files[0];
+    const selected_sub_image_b = sub_image_b.files[0];
     const sub_image_c = document.getElementById('sub_image_url_c');
-    const selected_sub_image_c = thumbnailInput.files[0];
+    const selected_sub_image_c = sub_image_c.files[0];
     let area;
     if (document.getElementById('city').value) {
         area = document.getElementById('city').value;
@@ -62,6 +62,7 @@ function send_data() {
         .then(response => response.json())
         .then(data => {
             console.log('Success:', data);
+            window.location.href = `./companion.html`;
         })
         .catch((error) => {
             console.error('Error:', error);

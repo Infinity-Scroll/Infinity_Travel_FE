@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>동행 페이지</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.1/dist/tailwind.min.css" rel="stylesheet" />
+    <!-- <link rel="stylesheet" href="/src/input.css" /> -->
+    <!-- <link rel="stylesheet" href="/dist/output.css" /> -->
+    <link rel="stylesheet" href="../dist/output.css" />
+    <script src="../public/js/urls.js"></script>
+    <script src="../public/js/navbar.js"></script>
+</head>
+
+<body class="bg-white">
+    <!-- <header> -->
+    <header class="fixed left-0 right-0 top-0 z-50 bg-gray-200 p-3">
+        <nav class="flex items-center justify-between">
+            <div class="logo">
+                <a class="font-bold text-2xl" href="./index.html">Infinity Scroll</a>
+            </div>
+            <ul class="ml-8 flex space-x-4">
+                <li><a href="./companion.html">동행</a></li>
+                <li><a href="./planner.html">일정</a></li>
+                <li><a href="./chat.html">채팅</a></li>
+            </ul>
+            <div class="login-icons ml-auto">
+                <a class="mypagebutton hidden" href="./profile.html">마이페이지</a>
+                <a class="loginbutton" href="./login.html">로그인</a>
+                <a class="logoutbutton hidden" href="">로그아웃</a>
+                <span> | </span>
+                <a class="signupbutton" href="./signup.html">회원가입</a>
+                <a href="">글쓰기</a>
+            </div>
+            <div><img class="nav-profile-image h-9 w-9 rounded-full mx-2" src="../public/img/default_profile.jpg"
+                    alt="">
+            </div>
+        </nav>
+    </header>
+
+    <section class="relative">
+        <div class="flex h-64 w-full items-center justify-center bg-gray-300">
+            <span>이미지 영역</span>
+        </div>
+        <div class="absolute left-0 right-0 top-0 flex h-64 items-center justify-center">
+            <input type="search" class="form-input mt-2 block w-full rounded p-2 md:w-1/2" placeholder="동행 찾기..." />
+        </div>
+    </section>
+
+    <section class="container mx-auto p-4">
+        <!-- 날짜 선택 -->
+        <div>
+            <label for="start_date">출발 날짜:</label>
+            <input type="date" id="start_date" required/>
+            <label for="end_date">복귀 날짜:</label>
+            <input type="date" id="end_date" required/>
+        </div>
+        <!-- 지역 선택 -->
+        <div>
+            <label for="continent">대륙:</label>
+            <select id="continent">
+                <option value="">대륙 선택</option>
+                <option value="동아시아">동아시아</option>
+                <option value="동남아시아">동남아시아</option>
+                <option value="중앙아시아">중앙아시아</option>
+                <option value="서남아시아">서남아시아</option>
+                <option value="유럽">유럽</option>
+                <option value="오세아니아">오세아니아</option>
+                <option value="아프리카">아프리카</option>
+                <option value="북아메리카">북아메리카</option>
+                <option value="남아메리카">남아메리카</option>
+                <!-- 대륙 옵션 추가 -->
+            </select>
+
+            <label for="country">국가:</label>
+            <select id="country" disabled>
+                <option value="">국가 선택</option>
+                <!-- 국가 옵션 추가 -->
+            </select>
+
+            <label for="city">여행지:</label>
+            <select id="city" disabled>
+                <option value="">여행지 선택</option>
+                <!-- 도시 옵션 추가 -->
+            </select>
+        </div>
+        <script src="../public/js/area_select.js"></script>
+        <!-- 모집 선택 -->
+        <div>
+            <label for="status">모집 여부:</label>
+            <select id="status">
+                <option value="모집중">모집중</option>
+                <option value="모집완료">모집완료</option>
+            </select>
+
+            <label for="total_recruits">총 모집 인원:</label>
+            <select id="total_recruits">
+                <option value="">총 모집 인원 선택</option>
+                <option value="총2명">총 2명</option>
+                <option value="총3명">총 3명</option>
+                <option value="총4명">총 4명</option>
+                <option value="총5명">총 5명</option>
+                <option value="총6명">총 6명</option>
+                <option value="총7명">총 7명</option>
+                <option value="총8명">총 8명</option>
+                <option value="총9명">총 9명</option>
+                <option value="총10명이상">총 10명이상</option>
+            </select>
+
+            <label for="current_recruits">현재 모집 중인 인원:</label>
+            <select id="current_recruits" disabled>
+                <option value="">현재 모집 중인 인원 선택</option>
+            </select>
+        </div>
+        <script src="../public/js/companion_status.js"></script>
+        <div id="thumbnail_image_sample"></div>
+        <label for="thumbnail_image_url" class="block text-sm font-semibold mb-2">썸네일 이미지 등록</label>
+        <input type="file" id="thumbnail_image_url" class="hidden" accept="image/*" />
+        <div id="sub_image_a_sample"></div>
+        <label for="sub_image_url_a" class="block text-sm font-semibold mb-2">추가 이미지 등록 1</label>
+        <input type="file" id="sub_image_url_a" class="hidden" accept="image/*" />
+        <div id="sub_image_b_sample"></div>
+        <label for="sub_image_url_b" class="block text-sm font-semibold mb-2">추가 이미지 등록 2</label>
+        <input type="file" id="sub_image_url_b" class="hidden" accept="image/*" />
+        <div id="sub_image_c_sample"></div>
+        <label for="sub_image_url_c" class="block text-sm font-semibold mb-2">추가 이미지 등록 3</label>
+        <input type="file" id="sub_image_url_c" class="hidden" accept="image/*" />
+        <div class="mb-6">
+            <label for="title" class="block text-sm font-semibold mb-2">제목</label>
+            <input type="text" id="title" name="title"
+                class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500"
+                placeholder="Enter title...">
+        </div>
+        <div class="mb-6">
+            <label for="content" class="block text-sm font-semibold mb-2">내용</label>
+            <textarea id="content" name="content"
+                class="w-full h-48 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500"
+                placeholder="Write your Companion content..."></textarea>
+        </div>
+        <div class="flex justify-end">
+            <button type="submit" onclick="update_data()"
+                class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:bg-blue-700">수정하기</button>
+        </div>
+        <script src="../public/js/companion_update.js"></script>
+    </section>
+
+</body>
+
+</html>
