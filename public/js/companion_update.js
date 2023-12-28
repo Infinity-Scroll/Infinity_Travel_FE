@@ -7,7 +7,7 @@ function find_value_by_key(value, obj) {
 
 // 페이지 로드 시 현재 정보를 폼에 표시
 window.addEventListener('load', () => {
-    fetch(`http://127.0.0.1:8000/companion/list/${post_id}/`, {
+    fetch(url+`/companion/list/${post_id}/`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
