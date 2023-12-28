@@ -66,6 +66,7 @@ function convertGender(genderCode) {
 function clickToChangeProfile() {
     const profileImage = document.querySelector('.profile-image');
     const profileInput = document.getElementById('profile-input');
+    const deleteaccountbutton = document.querySelector('.delete_account_button')
     profileInput.addEventListener('change', () => {
        ImageUpload(profileInput, profileImage);
     });
@@ -75,6 +76,7 @@ function clickToChangeProfile() {
 
     const sumbitbutton = document.querySelector('.profile-change') 
     sumbitbutton.addEventListener('click', updateProfile)
+    deleteaccountbutton.addEventListener('click', confirmdelete)
 }
 
 function ImageUpload(input, previewImage) {
@@ -133,4 +135,39 @@ async function updateProfile() {
     }
 }
 
+function confirmdelete() {
+    const isconfirm = confirm('정말로 회원탈퇴를 진행하시겠습니까?  모든 회원정보가 삭제됩니다.');
+    
+    if (isconfirm) {
+    deleteUser();
+    }
+}
 
+async function deleteUser() {
+    
+        try {
+          const response = await fetch(mydataurl, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+          });
+    
+          if (response.ok) {
+            window.alert('회원탈퇴가 완료되었습니다. 이용해주셔서 감사합니다.');
+            deleteCookies
+            window.location.href = loginpage;
+        } else {
+            const errorData = await response.json();       
+          }
+        } catch (error) {
+          console.error("에러", error);
+        }
+      
+}
+
+function deleteCookies() {
+    document.cookie = "access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "refresh_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+}
