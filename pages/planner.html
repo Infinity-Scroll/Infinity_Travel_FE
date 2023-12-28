@@ -541,7 +541,7 @@
       const buttons = document.createElement("div");
       buttons.classList.add("buttons", "flex", "justify-end", "space-x-2");
       buttons.innerHTML = `
-        <a href="planner_detail.html?id=${planner.id}" class="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600">상세보기</a>
+        <a href="planner_detail.html?dateEventId=${planner.id}" class="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600">상세보기</a>
       `;
 
       card.appendChild(mapContainer);

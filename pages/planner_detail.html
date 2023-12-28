@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Travel Planner</title>
   <link rel="stylesheet" href="../dist/output.css" />
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPRAME5ZhySmydx9zsgIZwPkTD6MclT1Y&libraries=places" defer></script>
 </head>
 
 <body class="flex min-h-screen cursor-default flex-col overflow-y-scroll bg-white">
@@ -39,7 +40,7 @@
   <main class="mx-auto flex h-[94rem] w-full max-w-screen-xl flex-grow justify-center pb-6 pt-24">
     <section class="flex w-full space-x-5">
       <!-- 지도 API 영역 -->
-      <div class="flex w-1/2 items-center justify-center bg-gray-300">
+      <div class="flex w-1/2 items-center justify-center bg-gray-300" id="mapField">
         <span>지도 API 영역</span>
       </div>
 
@@ -55,15 +56,8 @@
               <div id="date-events-list"></div>
             </div>
             
-            
-            
-            
-            
-          </section>
-          <!-- 여행지 섹션 추가 버튼 -->
-          <button class="mt-auto rounded bg-purple-500 px-4 py-2 text-white hover:bg-purple-600" onclick="addPlannerSection()">
-            여행지 섹션 추가
-          </button>
+          </section>          
+          
         </div>
       </div>
     </section>
@@ -89,11 +83,26 @@
           .then(data => {
             // 플래너 목록 업데이트
             updatePlannersList(data);
+            console.log(data)
           })
           .catch(error => console.error('데이터 가져오기 오류:', error));
-
-        <!-- 플래너 목록 업데이트 함수 -->
+        
         function updatePlannersList(data) {
+          const mapField = document.getElementById('mapField');
+          
+          const latitude = data.period_events[0].latitude;
+          const longitude = data.period_events[0].longitude;
+          const areaName = data.area;
+
+          const location = new google.maps.LatLng(latitude, longitude);
+          const mapOptions = {
+            center: location,
+            zoom: 5,
+          };
+
+          const map = new google.maps.Map(mapField, mapOptions);
+
+
           var plannersList = document.getElementById('planners-list');
         
           // 플래너 아이템 생성
@@ -142,12 +151,7 @@
         // 페이지 이동
         window.location.href = `./place_select.html?dateEventId=${dateEventId}`;
       };
-
-      // 여행지 섹션 추가
-      window.addPlannerSection = function () {
-        // 여행지 섹션 추가 로직 구현
-        // ...
-      };
+      
     });
   </script>
 </body>
