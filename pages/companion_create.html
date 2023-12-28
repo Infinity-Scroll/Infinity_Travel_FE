@@ -461,6 +461,8 @@
                     area = document.getElementById('continent').value;
                 }
 
+                const jwtToken = getJwtToken(); 
+                
                 const data = {
                     title: title,
                     content: content,
@@ -476,6 +478,7 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${jwtToken}`
                     },
                     body: JSON.stringify(data)
                 })
