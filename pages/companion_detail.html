@@ -8,18 +8,34 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.1/dist/tailwind.min.css" rel="stylesheet" />
     <!-- <link rel="stylesheet" href="/src/input.css" /> -->
     <!-- <link rel="stylesheet" href="/dist/output.css" /> -->
+    <link rel="stylesheet" href="../dist/output.css" />
+    <script src="../public/js/urls.js"></script>
+    <script src="../public/js/navbar.js"></script>
 </head>
 
 <body class="bg-white">
     <!-- <header> -->
-    <header class="bg-gray-200 p-2">
-        <nav class="container mx-auto justify-between mb-5 flex items-center bg-gray-200 p-4">
-            <div class="logo">Infinity Scroll</div>
+    <header class="fixed left-0 right-0 top-0 z-50 bg-gray-200 p-3">
+        <nav class="flex items-center justify-between">
+            <div class="logo">
+                <a class="font-bold text-2xl" href="./index.html">Infinity Scroll</a>
+            </div>
             <ul class="ml-8 flex space-x-4">
-                <li><a href="./index.html">홈</a></li>
-                <li><a href="./companion.html">커뮤니티</a></li>
+                <li><a href="./companion.html">동행</a></li>
+                <li><a href="./planner.html">일정</a></li>
+                <li><a href="./chat.html">채팅</a></li>
             </ul>
-            <div class="login-icons ml-auto">로그인 | 회원가입</div>
+            <div class="login-icons ml-auto">
+                <a class="mypagebutton hidden" href="./profile.html">마이페이지</a>
+                <a class="loginbutton" href="./login.html">로그인</a>
+                <a class="logoutbutton hidden" href="">로그아웃</a>
+                <span> | </span>
+                <a class="signupbutton" href="./signup.html">회원가입</a>
+                <a href="">글쓰기</a>
+            </div>
+            <div><img class="nav-profile-image h-9 w-9 rounded-full mx-2" src="../public/img/default_profile.jpg"
+                    alt="">
+            </div>
         </nav>
     </header>
 
@@ -39,13 +55,13 @@
             <ul id="comment_list" class="border border-gray-200 rounded-lg p-4">
                 <!-- 댓글 목록이 여기에 추가됩니다. -->
             </ul>
-            <form id="comment_form" class="mt-4">
+            <div id="comment_form" class="mt-4">
                 <textarea id="comment_content" class="form-textarea block w-full rounded-lg p-2 mb-2" rows="3"
                     placeholder="댓글을 입력하세요..."></textarea>
                 <button onclick="sendComment()" type="submit"
                     class="bg-blue-500 text-white rounded-lg px-4 py-2 hover:bg-blue-700 focus:outline-none focus:bg-blue-700">댓글
                     등록</button>
-            </form>
+            </div>
         </div>
         <div class="flex justify-end">
             <a class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:bg-blue-700"
@@ -60,112 +76,6 @@
 
 </body>
 
-<script>
-    const url_params = new URLSearchParams(window.location.search);
-    const post_id = url_params.get('post_id');
-    fetch(`http://localhost:8000/companion/list/${post_id}/`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        credentials: "include",
-    })
-        .then(response => response.json())
-        .then(post => {
-            const post_detail_container = document.getElementById('post_detail');
-            const post_element = document.createElement('div');
-            post_element.innerHTML = `
-                <h2 class="text-3xl font-semibold mb-4">${post.title}</h2>
-                <p class="text-gray-600 mb-6">여행기간 : ${post.start_date} ~ ${post.end_date}</p>
-                <p class="text-gray-600 mb-6">모집현황 : ${post.status}</p>
-                <p class="text-gray-600 mb-6">총 모집 인원 : ${post.total_recruits}</p>
-                <p class="text-gray-600 mb-6">현재 모집 중인 인원 : ${post.current_recruits}</p>
-                <p class="text-gray-600 mb-6">조회수 : ${post.views}</p>
-                <p class="text-gray-600 mb-6">작성자 : ${post.user_nickname} #${post.age_tag}</p>
-                <div class="mb-6">
-                    <img src="https://via.placeholder.com/800x400" alt="Post Image" class="w-full rounded-lg">
-                </div>
-                <p class="text-gray-700 leading-relaxed mb-6">${post.content}</p>
-            `;
-            post_detail_container.appendChild(post_element);
-        })
-        .catch(error => console.error('Error:', error));
-</script>
-
-<script>
-    function deletePost(){
-        function getAccessToken() {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.startsWith('access_token=')) {
-                    return cookie.substring(13);
-                }
-            }
-            return null;
-        }
-        const accesstoken = getAccessToken();
-
-        fetch(`http://localhost:8000/companion/list/${post_id}/`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accesstoken}`
-            },
-            credentials: "include",
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            console.log('Post deleted successfully');
-            // Handle success or redirection after deletion
-        })
-        .catch(error => console.error('Error:', error));
-    }
-</script>
-
-<script>
-    function sendComment() {
-        const comment_content = document.getElementById('comment_content').value;
-        const parent_comment = document.getElementById('parent_comment').value;
-
-        function getAccessToken() {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.startsWith('access_token=')) {
-                    return cookie.substring(13);
-                }
-            }
-            return null;
-        }
-        const accesstoken = getAccessToken();
-
-        const data = {
-            content: comment_content,
-            companion_post: post_id,
-            parent_comment: parent_comment,
-        };
-
-        fetch("http://127.0.0.1:8000/companion/comment/", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accesstoken}`
-            },
-            credentials: "include",
-            body: JSON.stringify(data)
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-                // window.location.href = `./test_detail03.html?post_id=${post_id}/`;
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-    }
-</script>
+<script src="../public/js/companion_detail.js"></script>
 
 </html>

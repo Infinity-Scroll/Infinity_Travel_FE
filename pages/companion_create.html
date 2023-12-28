@@ -8,18 +8,34 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.1/dist/tailwind.min.css" rel="stylesheet" />
     <!-- <link rel="stylesheet" href="/src/input.css" /> -->
     <!-- <link rel="stylesheet" href="/dist/output.css" /> -->
+    <link rel="stylesheet" href="../dist/output.css" />
+    <script src="../public/js/urls.js"></script>
+    <script src="../public/js/navbar.js"></script>
 </head>
 
 <body class="bg-white">
     <!-- <header> -->
-    <header class="bg-gray-200 p-2">
-        <nav class="container mx-auto justify-between mb-5 flex items-center bg-gray-200 p-4">
-            <div class="logo">Infinity Scroll</div>
+    <header class="fixed left-0 right-0 top-0 z-50 bg-gray-200 p-3">
+        <nav class="flex items-center justify-between">
+            <div class="logo">
+                <a class="font-bold text-2xl" href="./index.html">Infinity Scroll</a>
+            </div>
             <ul class="ml-8 flex space-x-4">
-                <li><a href="./index.html">홈</a></li>
-                <li><a href="./companion.html">커뮤니티</a></li>
+                <li><a href="./companion.html">동행</a></li>
+                <li><a href="./planner.html">일정</a></li>
+                <li><a href="./chat.html">채팅</a></li>
             </ul>
-            <div class="login-icons ml-auto">로그인 | 회원가입</div>
+            <div class="login-icons ml-auto">
+                <a class="mypagebutton hidden" href="./profile.html">마이페이지</a>
+                <a class="loginbutton" href="./login.html">로그인</a>
+                <a class="logoutbutton hidden" href="">로그아웃</a>
+                <span> | </span>
+                <a class="signupbutton" href="./signup.html">회원가입</a>
+                <a href="">글쓰기</a>
+            </div>
+            <div><img class="nav-profile-image h-9 w-9 rounded-full mx-2" src="../public/img/default_profile.jpg"
+                    alt="">
+            </div>
         </nav>
     </header>
 
@@ -69,285 +85,7 @@
                 <!-- 도시 옵션 추가 -->
             </select>
         </div>
-        <script>
-            const continent_select = document.getElementById('continent');
-            const country_select = document.getElementById('country');
-            const city_select = document.getElementById('city');
-
-            // 국가 목록
-            const countries = {
-                동아시아: ['한국', '몽골', '중국', '대만', '마카오', '홍콩', '일본'],
-                동남아시아: ['인도네시아', '태국', '베트남', '싱가포르', '말레이시아', '필리핀', '미얀마', '캄보디아', '라오스', '동티모르', '브루나이'],
-                중앙아시아: ['아제르바이잔', '부탄', '아프가니스탄', '타지키스탄', '키르기스스탄', '카자흐스탄', '투르크메니스탄', '우즈베키스탄', '방글라데시', '티베트'],
-                서남아시아: ['아르메니아', '카타르', '이스라엘', '네팔', '인도', '오만', '아랍에미리트', '몰디브', '스리랑카', '키프로스', '파키스탄', '이란', '시리아', '예멘', '요르단', '바레인', '이라크', '팔레스타인', '쿠웨이트', '사우디아라비아', '레바논'],
-                유럽: ['크로아티아', '우크라이나', '에스토니아', '알바니아', '안도라', '슬로바키아', '세르비아', '산마리노', '불가리아', '보스니아헤르체고비나', '조지아', '벨라루스', '스웨덴', '핀란드', '아이슬란드', '폴란드', '포르투갈', '스위스', '독일', '네덜란드', '오스트리아', '영국', '노르웨이', '덴마크', '슬로베니아', '체코', '벨기에', '헝가리', '아일랜드', '러시아', '그리스', '스페인', '터키', '이탈리아', '프랑스', '바티칸', '몰타', '몰도바', '몬테네그로', '모나코', '마케도니아', '리히텐슈타인', '리투아니아', '룩셈부르크', '루마니아', '라트비아'],
-                오세아니아: ['나우루', '마셜제도', '피지', '팔라우', '파푸아뉴기니', '통가', '키리바시', '솔로몬제도', '사모아', '바누아투', '미크로네시아', '뉴질랜드', '호주'],
-                아프리카: ['르완다', '레소토', '라이베리아', '니제르', '남수단', '나이지리아', '기니비사우', '기니', '감비아', '가봉', '가나', '리비아', '튀니지', '토고', '콩고민주공화국', '콩고공화국', '코트디부아르', '코모로', '카보베르데', '카메룬', '차드', '짐바브웨', '지부티', '중앙아프리카공화국', '적도기니', '상투메프린시페', '부르키나파소', '부룬디', '보츠와나', '베냉', '모잠비크', '모리타니', '모리셔스', '말리', '말라위', '서사하라', '세네갈', '잠비아', '우간다', '에리트레아', '앙골라', '알제리', '시에라리온', '에스와티니', '수단', '소말리아', '세이셸', '마다가스카르', '나미비아', '케냐', '에티오피아', '탄자니아', '남아프리카공화국', '이집트', '모로코'],
-                북아메리카: ['가이아나', '파나마', '트리니다드토바고', '코스타리카', '자메이카', '온두라스', '엘살바도르', '과테말라', '니카라과', '엔티가바부다', '아이티', '세인트키츠네비스', '세인트빈센트그레나딘', '세인트루시아', '벨리즈', '바하마', '도미니카연방', '도미니카공화국', '멕시코', '캐나다', '미국', '쿠바'],
-                남아메리카: ['콜롬비아', '우루과이', '에콰도르', '수리남', '브라질', '베네수엘라', '파라과이', '그린란드', '그레나다', '바베이도스', '페루', '볼리비아', '아르헨티나', '칠레'],
-                // 대륙에 따른 국가 목록 추가
-            };
-
-
-            // 도시 목록
-            const cities = {
-                // 동아시아
-                한국: ['서울', '부산', '인천', '경기도', '강원도', '충청도', '경상도', '전라도', '제주도', '울릉도'],
-                몽골: ['울란바토르'],
-                중국: ['베이징', '서안', '충칭', '장가계', '항저우', '하이난', '광저우', '청두', '칭다오', '상하이'],
-                대만: ['타이페이', '타이난', '가오슝', '타이중'],
-                마카오: ['마카오'],
-                홍콩: ['홍콩'],
-                일본: ['도쿄', '오사카', '나가노', '후쿠오카', '오키나와', '나고야', '히로시마', '훗카이도', '교토'],
-                // 동남아시아
-                인도네시아: ['자카르타', '수라바야', '반둥', '족자카르타', '바탐', '롬복', '발리'],
-                태국: ['방콕', '코창', '후야힌', '끄라비', '코사무이', '푸켓', '치앙마이', '파타야', '피피섬', '치앙라이'],
-                베트남: ['하노이', '호치민', '후에', '호이안', '다낭', '푸꾸옥', '사파', '나트랑', '달랏'],
-                싱가포르: ['싱가포르'],
-                말레이시아: ['쿠알라룸푸르', '코타키나발루', '페낭', '랑카위', '조호바루', '켄팅 하이랜드'],
-                필리핀: ['마닐라', '수빅 클락', '보홀', '팔라완', '세부', '보라카이'],
-                미얀마: ['나팔리', '이레호수', '만달레이', '바간', '양곤'],
-                캄보디아: ['프놈펜', '씨엠립'],
-                라오스: ['비엔티안', '방비엥', '루앙프라방'],
-                동티모르: [],
-                브루나이: [],
-                // 중앙아시아
-                아제르바이잔: [],
-                부탄: [],
-                아프가니스탄: [],
-                타지키스탄: [],
-                키르기스스탄: [],
-                카자흐스탄: [],
-                투르크메니스탄: [],
-                우즈베키스탄: [],
-                방글라데시: [],
-                티베트: [],
-                // 서남아시아
-                아르메니아: [],
-                카타르: ['도하'],
-                이스라엘: ['예루살렘', '텔아비브'],
-                네팔: ['카트만두', '포카라'],
-                인도: ['델리', '우다이푸르', '자이푸르', '뭄바이', '바라나시', '아그라'],
-                오만: ['무스카트'],
-                아랍에미리트: ['아부다비', '두바이'],
-                몰디브: [],
-                스리랑카: [],
-                키프로스: [],
-                파키스탄: [],
-                이란: [],
-                시리아: [],
-                예멘: [],
-                요르단: [],
-                바레인: [],
-                이라크: [],
-                팔레스타인: [],
-                쿠웨이트: [],
-                사우디아라비아: [],
-                레바논: [],
-                // 유럽
-                크로아티아: [],
-                우크라이나: [],
-                에스토니아: [],
-                알바니아: [],
-                안도라: [],
-                슬로바키아: [],
-                세르비아: [],
-                산마리노: [],
-                불가리아: [],
-                보스니아헤르체고비나: [],
-                조지아: [],
-                벨라루스: [],
-                스웨덴: ['스톡홀름'],
-                핀란드: ['헬싱키'],
-                아이슬란드: ['레이캬비크'],
-                폴란드: ['크라쿠프'],
-                포르투갈: ['리스본', '포르투'],
-                스위스: ['루체른', '제네바', '인터라켄', '취리히'],
-                독일: ['베를린', '뮌헨', '함부르크', '프랑크푸르트'],
-                네덜란드: ['암스테르담'],
-                오스트리아: ['비엔나'],
-                영국: ['런던', '에딘버러', '맨체스터', '리버풀'],
-                노르웨이: ['오슬로', '베르겐', '트롬쇠'],
-                덴마크: ['코펜하겐'],
-                슬로베니아: ['류블랴나'],
-                체코: ['프라하', '크룸로프'],
-                벨기에: ['브뤼셀', '브뤼헤'],
-                헝가리: ['부다페스트'],
-                아일랜드: ['더블린'],
-                러시아: ['모스크바', '상트페테르부르크', '블라디보스톡', '이르쿠츠크'],
-                그리스: ['아테네', '산토리니'],
-                스페인: ['마드리드', '바르셀로나', '그라나다', '세비야', '톨레도'],
-                터키: ['이스탄불', '카파도키아'],
-                이탈리아: ['로마', '피사', '나폴리', '밀라노', '베네치아', '피렌체'],
-                프랑스: ['파리', '마르세유', '알자스', '니스'],
-                바티칸: [],
-                몰타: [],
-                몰도바: [],
-                몬테네그로: [],
-                모나코: [],
-                마케도니아: [],
-                리히텐슈타인: [],
-                리투아니아: [],
-                룩셈부르크: [],
-                루마니아: [],
-                라트비아: [],
-                // 오세아니아
-                나우루: [],
-                마셜제도: [],
-                피지: [],
-                팔라우: [],
-                파푸아뉴기니: [],
-                통가: [],
-                키리바시: [],
-                솔로몬제도: [],
-                사모아: [],
-                바누아투: [],
-                미크로네시아: [],
-                뉴질랜드: ['퀸즈타운', '오클랜드', '로토루아', '크라이스트처치'],
-                호주: ['시드니', '퍼스', '케언즈', '멜버른', '브리즈번'],
-                // 아프리카
-                르완다: [],
-                레소토: [],
-                라이베리아: [],
-                니제르: [],
-                남수단: [],
-                나이지리아: [],
-                기니비사우: [],
-                기니: [],
-                감비아: [],
-                가봉: [],
-                가나: [],
-                리비아: [],
-                튀니지: [],
-                토고: [],
-                콩고민주공화국: [],
-                콩고공화국: [],
-                코트디부아르: [],
-                코모로: [],
-                카보베르데: [],
-                카메룬: [],
-                차드: [],
-                짐바브웨: [],
-                지부티: [],
-                중앙아프리카공화국: [],
-                적도기니: [],
-                상투메프린시페: [],
-                부르키나파소: [],
-                부룬디: [],
-                보츠와나: [],
-                베냉: [],
-                모잠비크: [],
-                모리타니: [],
-                모리셔스: [],
-                말리: [],
-                말라위: [],
-                서사하라: [],
-                세네갈: [],
-                잠비아: [],
-                우간다: [],
-                에리트레아: [],
-                앙골라: [],
-                알제리: [],
-                시에라리온: [],
-                에스와티니: [],
-                수단: [],
-                소말리아: [],
-                세이셸: [],
-                마다가스카르: [],
-                나미비아: ['빈트후크', '스와콥문트'],
-                케냐: ['나이로비'],
-                에티오피아: ['아디스아바바'],
-                탄자니아: ['다르에스살람', '잔지바르', '킬리만자로', '아루샤'],
-                남아프리카공화국: ['케이프타운', '요하네스버그'],
-                이집트: ['카이로', '후루가다', '아스완', '룩소르'],
-                모로코: ['카사블랑카', '페스', '마라케시'],
-                // 북아메리카
-                가이아나: [],
-                파나마: [],
-                트리니다드토바고: [],
-                코스타리카: [],
-                자메이카: [],
-                온두라스: [],
-                엘살바도르: [],
-                과테말라: [],
-                니카라과: [],
-                엔티가바부다: [],
-                아이티: [],
-                세인트키츠네비스: [],
-                세인트빈센트그레나딘: [],
-                세인트루시아: [],
-                벨리즈: [],
-                바하마: [],
-                도미니카연방: [],
-                도미니카공화국: [],
-                멕시코: ['칸쿤'],
-                캐나다: ['토론토', '캘거리', '벤쿠버', '퀘벡'],
-                미국: ['워싱턴 D.C.', '뉴욕', '샌프란시스코', '로스앤젤레스', '라스베가스', '시카고', '사이판', '괌', '하와이', '샌디에이고', '보스턴', '시애틀', '마이애미', '필라델피아', '올랜도'],
-                쿠바: ['아바나'],
-                // 남아메리카
-                콜롬비아: [],
-                우루과이: [],
-                에콰도르: [],
-                수리남: [],
-                브라질: [],
-                베네수엘라: [],
-                파라과이: [],
-                그린란드: [],
-                그레나다: [],
-                바베이도스: [],
-                페루: ['리마'],
-                볼리비아: ['라파스', '우유니'],
-                아르헨티나: ['부에노스아이레스'],
-                칠레: ['산티아고', '산페드로데아타카마'],
-                // 국가에 따른 도시 목록 추가
-            };
-
-            // 대륙 변경 시 국가 업데이트
-            continent_select.addEventListener('change', function () {
-                const selected_continent = this.value;
-                country_select.disabled = false;
-                country_select.innerHTML = '<option value="">국가 선택</option>';
-
-                if (selected_continent) {
-                    const country_list = countries[selected_continent];
-                    country_list.forEach(country => {
-                        const option = document.createElement('option');
-                        option.value = country;
-                        option.textContent = country;
-                        country_select.appendChild(option);
-                    });
-                } else {
-                    country_select.disabled = true;
-                    city_select.disabled = true;
-                }
-
-                city_select.innerHTML = '<option value="">여행지 선택</option>';
-            });
-
-            // 국가 변경 시 도시 업데이트
-            country_select.addEventListener('change', function () {
-                const selected_country = this.value;
-                city_select.disabled = false;
-                city_select.innerHTML = '<option value="">여행지 선택</option>';
-
-                if (selected_country) {
-                    const city_list = cities[selected_country];
-                    city_list.forEach(city => {
-                        const option = document.createElement('option');
-                        option.value = city;
-                        option.textContent = city;
-                        city_select.appendChild(option);
-                    });
-                } else {
-                    city_select.disabled = true;
-                }
-            });
-
-            // 도시 변경 시
-            city_select.addEventListener('change', function () {
-                const selected_city = this.value;
-            });
-        </script>
+        <script src="../public/js/area_select.js"></script>
         <!-- 모집 선택 -->
         <div>
             <label for="status">모집 여부:</label>
@@ -375,67 +113,15 @@
                 <option value="">현재 모집 중인 인원 선택</option>
             </select>
         </div>
-        <script>
-            const status_select = document.getElementById('status');
-            const total_recruits_select = document.getElementById('total_recruits');
-            const current_recruits_select = document.getElementById('current_recruits');
-
-            const recruits_member = {
-                총2명: ['1명'],
-                총3명: ['1명', '2명'],
-                총4명: ['1명', '2명', '3명'],
-                총5명: ['1명', '2명', '3명', '4명'],
-                총6명: ['1명', '2명', '3명', '4명', '5명'],
-                총7명: ['1명', '2명', '3명', '4명', '5명', '6명'],
-                총8명: ['1명', '2명', '3명', '4명', '5명', '6명', '7명'],
-                총9명: ['1명', '2명', '3명', '4명', '5명', '6명', '7명', '8명'],
-                총10명이상: ['1명', '2명', '3명', '4명', '5명', '6명', '7명', '8명', '9명', '10명이상'],
-            };
-            // 모집 여부 변경 시 현재 모집 중인 인원 업데이트
-            status_select.addEventListener('change', function () {
-                const selected_status = this.value;
-                const selected_total_recruits = total_recruits_select.value;
-                current_recruits_select.disabled = false;
-                current_recruits_select.innerHTML = '<option value="">현재 모집 중인 인원 선택</option>';
-
-                if (selected_total_recruits && selected_status == '모집중') {
-                    const member_list = recruits_member[selected_total_recruits];
-                    member_list.forEach(member => {
-                        const option = document.createElement('option');
-                        option.value = member;
-                        option.textContent = member;
-                        current_recruits_select.appendChild(option);
-                    });
-                } else {
-                    current_recruits_select.disabled = true;
-                }
-            });
-            current_recruits_select.addEventListener('change', function () {
-                const selected_current_recruits = this.value;
-            });
-            // 총 모집 인원 변경 시 현재 모집 중인 인원 업데이트
-            total_recruits_select.addEventListener('change', function () {
-                const selected_total_recruits = this.value;
-                const selected_status = status_select.value;
-                current_recruits_select.disabled = false;
-                current_recruits_select.innerHTML = '<option value="">현재 모집 중인 인원 선택</option>';
-
-                if (selected_total_recruits && selected_status == '모집중') {
-                    const member_list = recruits_member[selected_total_recruits];
-                    member_list.forEach(member => {
-                        const option = document.createElement('option');
-                        option.value = member;
-                        option.textContent = member;
-                        current_recruits_select.appendChild(option);
-                    });
-                } else {
-                    current_recruits_select.disabled = true;
-                }
-            });
-            current_recruits_select.addEventListener('change', function () {
-                const selected_current_recruits = this.value;
-            });
-        </script>
+        <script src="../public/js/companion_status.js"></script>
+        <label for="thumbnail_image_url" class="block text-sm font-semibold mb-2">썸네일 이미지 등록</label>
+        <input type="file" id="thumbnail_image_url" class="hidden" accept="image/*" />
+        <label for="sub_image_url_a" class="block text-sm font-semibold mb-2">추가 이미지 등록 1</label>
+        <input type="file" id="sub_image_url_a" class="hidden" accept="image/*" />
+        <label for="sub_image_url_b" class="block text-sm font-semibold mb-2">추가 이미지 등록 2</label>
+        <input type="file" id="sub_image_url_b" class="hidden" accept="image/*" />
+        <label for="sub_image_url_c" class="block text-sm font-semibold mb-2">추가 이미지 등록 3</label>
+        <input type="file" id="sub_image_url_c" class="hidden" accept="image/*" />
         <div class="mb-6">
             <label for="title" class="block text-sm font-semibold mb-2">제목</label>
             <input type="text" id="title" name="title"
@@ -449,68 +135,10 @@
                 placeholder="Write your Companion content..."></textarea>
         </div>
         <div class="flex justify-end">
-            <button type="submit" onclick="sendData()"
+            <button type="submit" onclick="send_data()"
                 class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:bg-blue-700">작성하기</button>
         </div>
-        <script>
-            function sendData() {
-                const title = document.getElementById('title').value;
-                const content = document.getElementById('content').value;
-                const start_date = document.getElementById('start_date').value;
-                const end_date = document.getElementById('end_date').value;
-                const total_recruits = document.getElementById('total_recruits').value;
-                const current_recruits = document.getElementById('current_recruits').value;
-                const status = document.getElementById('status').value;
-                let area;
-                if (document.getElementById('city').value) {
-                    area = document.getElementById('city').value;
-                } else if (document.getElementById('country').value) {
-                    area = document.getElementById('country').value;
-                } else if (document.getElementById('continent').value) {
-                    area = document.getElementById('continent').value;
-                }
-                
-                function getAccessToken() {
-                    const cookies = document.cookie.split(';');
-                    for (let i = 0; i < cookies.length; i++) {
-                        const cookie = cookies[i].trim();
-                        if (cookie.startsWith('access_token=')) {
-                            return cookie.substring(13);
-                        }
-                    }
-                    return null;
-                }
-                const accesstoken = getAccessToken();
-                
-                const data = {
-                    title: title,
-                    content: content,
-                    area: area,
-                    start_date: start_date,
-                    end_date: end_date,
-                    total_recruits: total_recruits,
-                    current_recruits: current_recruits,
-                    status: status,
-                };
-
-                fetch("http://127.0.0.1:8000/companion/list/", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${accesstoken}`
-                    },
-                    credentials: "include",
-                    body: JSON.stringify(data)
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log('Success:', data);
-                    })
-                    .catch((error) => {
-                        console.error('Error:', error);
-                    });
-            }
-        </script>
+        <script src="../public/js/companion_create.js"></script>
     </section>
 
 </body>
