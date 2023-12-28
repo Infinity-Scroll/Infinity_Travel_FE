@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>동행 페이지</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.1/dist/tailwind.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="/dist/output.css" />
+  <link rel="stylesheet" href="../dist/output.css" />
 </head>
 
 <body class="flex min-h-screen flex-col bg-white">
@@ -27,13 +27,16 @@
     </nav>
   </header>
 
+
   <section class="pb-6 pt-24">
     <section class="slider relative mb-10 h-80 bg-gray-300">
       <div class="flex h-full items-center justify-center">이미지 영역</div>
       <div class="absolute left-1/2 right-0 top-1/2 -translate-x-1/2 -translate-y-1/2 transform justify-center">
         <input type="search" class="form-input block h-14 w-full rounded p-2" placeholder="어느 나라, 도시로 떠나시나요?" />
+
       </div>
     </section>
+  </section>
 
     <section class="mx-auto w-full max-w-screen-2xl p-4">
       <div class="mb-4 flex flex-wrap justify-between gap-2">
@@ -55,12 +58,14 @@
     </section>
   </section>
 
+
   <footer class="mt-auto bg-gray-100 p-4 text-center">
     <div class="container mx-auto">
       <p>&copy; 2023 Infinity Scroll. All rights reserved.</p>
     </div>
   </footer>
 </body>
+
 <script>
   function showPostDetail(post_id) {
     window.location.href = `companion_detail.html?post_id=${post_id}`;
@@ -94,5 +99,6 @@
     })
     .catch(error => console.error(error));
 </script>
+
 
 </html>
