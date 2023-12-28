@@ -177,10 +177,11 @@ function update_data() {
         current_recruits: current_recruits,
         status: status,
     };
-    data.append('thumbnail_image_url', selected_thumbnail_image);
-    data.append('sub_image_url_a', selected_sub_image_a);
-    data.append('sub_image_url_b', selected_sub_image_b);
-    data.append('sub_image_url_c', selected_sub_image_c);
+    
+    data.thumbnail_image_url = selected_thumbnail_image
+    data.sub_image_url_a = selected_sub_image_a
+    data.sub_image_url_b = selected_sub_image_b
+    data.sub_image_url_c = selected_sub_image_c
 
     fetch(url+`/companion/list/${post_id}/`, {
         method: 'PATCH',
