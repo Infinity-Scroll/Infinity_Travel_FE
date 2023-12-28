@@ -114,12 +114,16 @@
             </select>
         </div>
         <script src="../public/js/companion_status.js"></script>
+        <div id="thumbnail_image_sample"></div>
         <label for="thumbnail_image_url" class="block text-sm font-semibold mb-2">썸네일 이미지 등록</label>
         <input type="file" id="thumbnail_image_url" class="hidden" accept="image/*" />
+        <div id="sub_image_a_sample"></div>
         <label for="sub_image_url_a" class="block text-sm font-semibold mb-2">추가 이미지 등록 1</label>
         <input type="file" id="sub_image_url_a" class="hidden" accept="image/*" />
+        <div id="sub_image_b_sample"></div>
         <label for="sub_image_url_b" class="block text-sm font-semibold mb-2">추가 이미지 등록 2</label>
         <input type="file" id="sub_image_url_b" class="hidden" accept="image/*" />
+        <div id="sub_image_c_sample"></div>
         <label for="sub_image_url_c" class="block text-sm font-semibold mb-2">추가 이미지 등록 3</label>
         <input type="file" id="sub_image_url_c" class="hidden" accept="image/*" />
         <div class="mb-6">
@@ -135,10 +139,10 @@
                 placeholder="Write your Companion content..."></textarea>
         </div>
         <div class="flex justify-end">
-            <button type="submit" onclick="send_data()"
-                class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:bg-blue-700">작성하기</button>
+            <button type="submit" onclick="update_data()"
+                class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:bg-blue-700">수정하기</button>
         </div>
-        <script src="../public/js/companion_create.js"></script>
+        <script src="../public/js/companion_update.js"></script>
     </section>
 
 </body>

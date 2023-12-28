@@ -7,24 +7,33 @@
   <title>동행 페이지</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.1/dist/tailwind.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="../dist/output.css" />
+  <script src="../public/js/urls.js"></script>
+  <script src="../public/js/navbar.js"></script>
 </head>
 
 <body class="flex min-h-screen flex-col bg-white">
-  <header class="fixed left-0 right-0 top-0 z-50 bg-gray-200 p-6">
-    <nav class="flex items-center justify-between">
-      <div class="logo"><a href="./index.html">Infinity Scroll</a></div>
-      <ul class="ml-8 flex space-x-4">
-        <li><a href="./companion.html">동행</a></li>
-        <li><a href="./planner.html">일정</a></li>
-      </ul>
-      <div class="login-icons ml-auto">
-        <a href="./profile.html">마이페이지</a>
-        <a href="./login.html">로그인</a>
-        <span> | </span>
-        <a href="./signup.html">회원가입</a>
-        <a href="">글쓰기</a>
-      </div>
-    </nav>
+  <header class="fixed left-0 right-0 top-0 z-50 bg-gray-200 p-3">
+      <nav class="flex items-center justify-between">
+          <div class="logo">
+              <a class="font-bold text-2xl" href="./index.html">Infinity Scroll</a>
+          </div>
+          <ul class="ml-8 flex space-x-4">
+              <li><a href="./companion.html">동행</a></li>
+              <li><a href="./planner.html">일정</a></li>
+              <li><a href="./chat.html">채팅</a></li>
+          </ul>
+          <div class="login-icons ml-auto">
+              <a class="mypagebutton hidden" href="./profile.html">마이페이지</a>
+              <a class="loginbutton" href="./login.html">로그인</a>
+              <a class="logoutbutton hidden" href="">로그아웃</a>
+              <span> | </span>
+              <a class="signupbutton" href="./signup.html">회원가입</a>
+              <a href="">글쓰기</a>
+          </div>
+          <div><img class="nav-profile-image h-9 w-9 rounded-full mx-2" src="../public/img/default_profile.jpg"
+                  alt="">
+          </div>
+      </nav>
   </header>
 
 
@@ -66,39 +75,7 @@
   </footer>
 </body>
 
-<script>
-  function showPostDetail(post_id) {
-    window.location.href = `companion_detail.html?post_id=${post_id}`;
-  }
-  fetch('http://localhost:8000/companion/list/')
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    })
-    .then(posts => {
-      const postsContainer = document.getElementById('companion_posts');
-
-      posts.forEach(post => {
-        const postElement = document.createElement('div');
-        postElement.classList.add('rounded');
-        postElement.classList.add('bg-gray-100');
-        postElement.classList.add('p-4');
-        postElement.classList.add('shadow');
-        postElement.innerHTML = `
-                <div class="mb-2 flex h-40 w-full items-center justify-center bg-gray-300">
-                    <span>게시글 이미지</span>
-                </div>
-                <h3 class="mb-1 font-bold" onclick="showPostDetail(${post.id})" style="cursor: pointer;">${post.title}</h3>
-                <p class="text-sm">${post.content}
-                </p>
-            `;
-        postsContainer.appendChild(postElement);
-      });
-    })
-    .catch(error => console.error(error));
-</script>
+<script src="../public/js/companion_list.js"></script>
 
 
 </html>
