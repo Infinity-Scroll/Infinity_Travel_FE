@@ -33,6 +33,13 @@
     </section>
 
     <section class="container mx-auto p-4">
+        <!-- 날짜 선택 -->
+        <div>
+            <label for="start_date">출발 날짜:</label>
+            <input type="date" id="start_date" required/>
+            <label for="end_date">복귀 날짜:</label>
+            <input type="date" id="end_date" required/>
+        </div>
         <!-- 지역 선택 -->
         <div>
             <label for="continent">대륙:</label>
@@ -403,6 +410,9 @@
                     current_recruits_select.disabled = true;
                 }
             });
+            current_recruits_select.addEventListener('change', function () {
+                const selected_current_recruits = this.value;
+            });
             // 총 모집 인원 변경 시 현재 모집 중인 인원 업데이트
             total_recruits_select.addEventListener('change', function () {
                 const selected_total_recruits = this.value;
@@ -422,7 +432,6 @@
                     current_recruits_select.disabled = true;
                 }
             });
-            // 현재 모집 중인 인원 변경 시
             current_recruits_select.addEventListener('change', function () {
                 const selected_current_recruits = this.value;
             });
@@ -460,8 +469,18 @@
                 } else if (document.getElementById('continent').value) {
                     area = document.getElementById('continent').value;
                 }
-
-                const jwtToken = getJwtToken(); 
+                
+                function getAccessToken() {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.startsWith('access_token=')) {
+                            return cookie.substring(13);
+                        }
+                    }
+                    return null;
+                }
+                const accesstoken = getAccessToken();
                 
                 const data = {
                     title: title,
@@ -478,8 +497,9 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${jwtToken}`
+                        'Authorization': `Bearer ${accesstoken}`
                     },
+                    credentials: "include",
                     body: JSON.stringify(data)
                 })
                     .then(response => response.json())
