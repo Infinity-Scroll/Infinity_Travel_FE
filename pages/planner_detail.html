@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Travel Planner</title>
+  <link rel="stylesheet" href="../dist/output.css" />
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPRAME5ZhySmydx9zsgIZwPkTD6MclT1Y&libraries=places" defer></script>
+</head>
+
+<body class="flex min-h-screen cursor-default flex-col overflow-y-scroll bg-white">
+  <header class="fixed left-0 right-0 top-0 z-50 bg-gray-200 py-6">
+    <div class="mx-auto max-w-screen-2xl">
+      <nav class="flex items-center justify-between px-4">
+        <div class="logo">
+          <a href="./index.html">Infinity Travel</a>
+        </div>
+        <ul class="ml-16 flex space-x-6">
+          <li><a href="./companion.html">동행</a></li>
+          <li><a href="./planner.html">일정</a></li>
+        </ul>
+        <div class="first-line:login-icons ml-auto flex gap-8">
+          <div>
+            <a href="./profile.html">마이페이지</a>
+          </div>
+          <div>
+            <a href="./login.html">로그인</a>
+            <span>|</span>
+            <a href="./signup.html">회원가입</a>
+          </div>
+          <div>
+            <a href="">글쓰기</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="mx-auto flex h-[94rem] w-full max-w-screen-xl flex-grow justify-center pb-6 pt-24">
+    <section class="flex w-full space-x-5">
+      <!-- 지도 API 영역 -->
+      <div class="flex w-1/2 items-center justify-center bg-gray-300" id="mapField">
+        <span>지도 API 영역</span>
+      </div>
+
+      <!-- 여행 일정 작성 영역 -->
+      <div class="flex w-1/2 flex-col items-center bg-gray-100 p-4">        
+
+        <!-- 여행지 섹션 -->
+        <div class="w-full overflow-auto">
+          <section class="flex flex-col space-y-4" id="planners-list">
+            
+            <div id="period-evnets-list">
+              <!-- 날짜 이벤트 생성 및 채우기 -->
+              <div id="date-events-list"></div>
+            </div>
+            
+          </section>          
+          
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="mt-auto bg-gray-100 p-4 text-center">
+    <!-- 푸터 내용 -->
+  </footer>
+
+  <!-- 데이터를 가져오고 표시하기 위한 JavaScript 코드 추가 -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const urlParams = new URLSearchParams(window.location.search);
+      const dateEventId = urlParams.get('dateEventId');
+      
+      if (dateEventId) {
+        // Use the dateEventId to construct the API URL
+        var apiUrl = `https://www.infinity-travel.shop/schedule/api/planners/${dateEventId}/`;
+    
+        // DRF API에서 데이터 가져오기
+        fetch(apiUrl)
+          .then(response => response.json())
+          .then(data => {
+            // 플래너 목록 업데이트
+            updatePlannersList(data);
+            console.log(data)
+          })
+          .catch(error => console.error('데이터 가져오기 오류:', error));
+        
+        function updatePlannersList(data) {
+          const mapField = document.getElementById('mapField');
+          
+          const latitude = data.period_events[0].latitude;
+          const longitude = data.period_events[0].longitude;
+          const areaName = data.area;
+
+          const location = new google.maps.LatLng(latitude, longitude);
+          const mapOptions = {
+            center: location,
+            zoom: 5,
+          };
+
+          const map = new google.maps.Map(mapField, mapOptions);
+
+
+          var plannersList = document.getElementById('planners-list');
+        
+          // 플래너 아이템 생성
+          var plannerItem = document.createElement('div');
+          plannerItem.className = 'planner-item';
+        
+          // 날짜 범위 표시
+          var dateRange = document.createElement('div');
+          dateRange.className = 'mb-4';
+          dateRange.innerHTML = `
+            <div class="text-center">
+              <div class="font-bold text-xl mb-2">${data.name}</div>
+              <div class="mb-2">여행지: ${data.area}</div>
+              <div class="mb-2">${data.start_date} - ${data.end_date}</div>
+            </div>
+          `;
+          plannerItem.appendChild(dateRange);
+        
+          // 날짜 이벤트 생성 및 채우기
+          var dateEventsList = document.createElement('div');
+          dateEventsList.id = 'date-events-list';
+          data.period_events[0].date_events.forEach(dateEvent => {
+            var dateEventItem = document.createElement('div');
+            dateEventItem.className = 'mb-4';
+            var placeName = dateEvent.place.length > 0 ? dateEvent.place[0].name : '장소 선택 안 함';
+            dateEventItem.innerHTML = `
+              <div class="font-semibold text-lg mb-2">${dateEvent.event_date}</div>
+              <div class="rounded-lg overflow-hidden border border-gray-300 p-4">
+                <p class="mb-2">장소: ${placeName}</p>
+                <!-- [장소 추가] 버튼을 누르면 해당 날짜 이벤트의 ID를 전달 -->
+                <button class="mr-2 rounded bg-blue-500 px-3 py-1 text-white hover:bg-blue-600" onclick="openPlaceSelect(${dateEvent.id})">장소 추가</button>
+              </div>
+            `;
+            dateEventsList.appendChild(dateEventItem);
+          });
+        
+          // 날짜 이벤트를 플래너 아이템에 추가
+          plannerItem.appendChild(dateEventsList);
+        
+          // 플래너 아이템을 플래너 목록에 추가
+          plannersList.appendChild(plannerItem);
+        }
+      }
+      // 장소 선택 페이지로 이동
+      window.openPlaceSelect = function (dateEventId) {
+        // 페이지 이동
+        window.location.href = `./place_select.html?dateEventId=${dateEventId}`;
+      };
+      
+    });
+  </script>
+</body>
+
+</html>
