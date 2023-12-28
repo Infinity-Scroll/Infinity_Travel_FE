@@ -43,7 +43,11 @@ document.querySelector('.roomlist').addEventListener('click', function(event) {
         }
     }
 });
-
+document.querySelector('.message').addEventListener('scroll', function() {
+    if (this.scrollTop === 0) {
+        loadNextPage();
+    }
+});
 
 
 function connectWebSocket(room_name) {
@@ -149,11 +153,12 @@ async function load_roomlist() {
     }
   }
 
-let chatpage = 1
+let nextpage;
+
 async function loadChatHistory(room_name) {
-    chatpage = 1
+
     try {
-      const response = await fetch(`${chathistoryurl}${room_name}/?page=${chatpage}`, {
+      const response = await fetch(`${chathistoryurl}${room_name}/?page=1`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -163,9 +168,10 @@ async function loadChatHistory(room_name) {
       if (response.ok) {
         const roomlist = await response.json();
         console.log(roomlist)
-        
+        nextpage = roomlist.next + '&page_size=10'
+        chatclear()
         loadMessageHistory(roomlist)
-        
+
       } else {
         const errorData = await response.json();
       }
@@ -174,42 +180,60 @@ async function loadChatHistory(room_name) {
     }
 }
 
-function loadMessageHistory(roomlist) {
-    chatclear()
+async function loadNextPage() {
+    try {
+
+        const response = await fetch(nextpage, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        });
+        if (response.ok) {
+          const roomlist = await response.json();
+          console.log(roomlist)
+          nextpage = roomlist.next
+          loadMessageHistory(roomlist)
+          scrolldown()
+        } else {
+          const errorData = await response.json();
+          console.log(errorData)
+        }
+      } catch (error) {
+        console.error("채팅기록 불러오기 에러", error);
+      }
+  }
+
+
+  function loadMessageHistory(roomlist) {
     messages = roomlist.results
     const chatmessage = document.querySelector('.chat-message');
     console.log(messages)
-    let messageHTML;
+    let messageHTML = "";
+
     messages.reverse().forEach(message => {
         const formattedTime = formatDateTime(message.created_at);
-        const profileImg = message.profile_img || "../public/img/default_profile.jpg";
+        const profileImg = message.image_url || "../public/img/default_profile.jpg";
         if (message.is_sender === true) {
-        messageHTML = `
-        <div class="flex justify-end">
-        <div class="ml-20 pr-3 pt-6">${formattedTime}</div>
-        <div class="mymessage">
-            ${message.message}
-        </div>
-        <img src=${profileImg}
-            class="object-cover h-12 w-12 rounded-xl" alt="" />
-    </div>
-        `;
+            messageHTML += `
+                <div class="flex justify-end">
+                    <div class="ml-20 pr-3 pt-6">${formattedTime}</div>
+                    <div class="mymessage">${message.message}</div>
+                    <img src=${profileImg} class="object-cover h-12 w-12 rounded-xl" alt="" />
+                </div>`;
         } else {
-            messageHTML = `
-            <div class="flex justify-start">
-                        <img src=${profileImg}
-                            class="object-cover h-12 w-12 rounded-xl" alt="" />
-                        <div
-                            class="otherusermessage">
-                            ${message.message}
-                        </div>
-                        <div class="mr-20 pl-3 pt-6">${formattedTime}</div>
-                    </div>
-        `;
+            messageHTML += `
+                <div class="flex justify-start">
+                    <img src=${profileImg} class="object-cover h-12 w-12 rounded-xl" alt="" />
+                    <div class="otherusermessage">${message.message}</div>
+                    <div class="mr-20 pl-3 pt-6">${formattedTime}</div>
+                </div>`;
         }
-        chatmessage.innerHTML += messageHTML;
-
     });
+
+    // 새로운 채팅 메시지를 기존 메시지의 맨 위에 추가
+    chatmessage.insertAdjacentHTML('afterbegin', messageHTML);
 }
 
 
@@ -333,4 +357,9 @@ function leaveRoom(roomName) {
     .catch(error => {
         console.error('방 나가기 요청 오류:', error);
     });
+}
+
+function scrolldown() {
+    const myscroll = document.querySelector('.message')
+    myscroll.scrollTop = 200
 }

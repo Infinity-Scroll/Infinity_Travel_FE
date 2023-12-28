@@ -7,6 +7,17 @@ document.addEventListener('keydown', function(event) {
     }
 });
 
+
+document.addEventListener('DOMContentLoaded', function () {
+  const urlParams = new URLSearchParams(window.location.search);
+  const message = urlParams.get('message');
+
+  if (message) {
+     window.alert('회원가입에 성공했습니다. 로그인을 진행해주세요.')
+  }
+});
+
+
 async function login() {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
