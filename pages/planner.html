@@ -8,7 +8,8 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.1/dist/tailwind.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="../dist/output.css" />
   <script src="../public/js/urls.js"></script>
-  <script src="../public/js/navbar.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPRAME5ZhySmydx9zsgIZwPkTD6MclT1Y&libraries=places" defer></script>
+
 </head>
 
 <body class="flex min-h-screen flex-col bg-white">
@@ -109,13 +110,13 @@
       <p>&copy; 2023 Infinity Scroll. All rights reserved.</p>
     </div>
   </footer>
-  <script>
+  
+  <script id = "nameCity">
     const continent_select = document.getElementById('continent');
     const country_select = document.getElementById('country');
     const city_select = document.getElementById('city');
     let userEmail = null;
     let profileimage = "";
-    const url = `https://www.infinity-travel.shop/accounts/`
     // 국가 목록
     const countries = {
         동아시아: ['한국', '몽골', '중국', '대만', '마카오', '홍콩', '일본'],
@@ -389,14 +390,10 @@
     city_select.addEventListener('change', function () {
         const selected_city = this.value;
     });
-    
-    
-    
-    // 로그인 후 유저정보 가져오기 
-     
-
-
-     // API에서 데이터를 가져와서 그리드에 추가하는 함수
+  </script>  
+  
+  <script>
+    // API에서 데이터를 가져와서 그리드에 추가하는 함수
     async function fetchAndRenderPlanners(searchTerm) {
       try {
         const apiUrl = `https://www.infinity-travel.shop/schedule/api/planners/?name=${searchTerm}`;
@@ -478,8 +475,8 @@
         console.error("Error submitting data:", error);
       }
     });
-    
-    
+
+
     // 여행카드를 그리드에 추가하는 함수
     function renderPlanners(planners) {
       const plannerGrid = document.getElementById("planner-grid");
@@ -511,10 +508,10 @@
       const placeInfo = document.createElement("div");
       placeInfo.classList.add("place-info", "mb-2");
 
-       // 좌표 가져오기
-       const latitude = planner.period_events[0].latitude;
-       const longitude = planner.period_events[0].longitude;
-       const areaName = planner.area;    
+      // 좌표 가져오기
+      const latitude = planner.period_events[0].latitude;
+      const longitude = planner.period_events[0].longitude;
+      const areaName = planner.area;
 
       const location = new google.maps.LatLng(latitude, longitude);
       const mapOptions = {
@@ -524,14 +521,14 @@
 
       const map = new google.maps.Map(mapContainer, mapOptions);
 
-       if (planner.period_events.length > 0 && planner.period_events[0].date_events.length > 0) {
+      if (planner.period_events.length > 0 && planner.period_events[0].date_events.length > 0) {
         const firstDateEvent = planner.period_events[0].date_events[0];
         const placeName = firstDateEvent.place.length > 0 ? firstDateEvent.place[0].name : "입력된 장소가 없습니다.";
 
         placeInfo.innerHTML = `
           <div class="flex items-center">
             <div class="place-image mr-2 flex h-20 w-20 items-center justify-center bg-gray-300">
-              <span>장소 이미지</span>
+              <span> 장소 이미지 </span>
             </div>
             <div class="place-details">
               <h5 class="font-semibold">장소 이름</h5>
@@ -554,7 +551,6 @@
       card.appendChild(buttons);
 
       return card;
-
     }
 
     // 검색 함수를 전역으로 정의합니다.
@@ -566,60 +562,30 @@
       } catch (error) {
         console.error("Error fetching data:", error);
       }
-    }    
-    // 여기서 handleEnterKey 함수를 정의합니다.
+    } 
+
     function handleEnterKey(event) {
       if (event.key === "Enter") {
         searchPlanners();
       }
     }
 
+    // 여행카드가 들어갈 그리드 요소
     document.addEventListener("DOMContentLoaded", async function () {
-      // 여행카드가 들어갈 그리드 요소
       const plannerGrid = document.getElementById("planner-grid");
 
-      // 사용자 정보 가져오기 로그인 로직에 대해 묻고 반영할 수 있도록 할 것 
-      try {
-        const userResponse = await fetch("https://www.infinity-travel.shop/accounts/", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        });
-      
-      const userData = await userResponse.json();
-      // 받아온 이메일을 userEmail 변수에 저장
-      userEmail = userData.email;
-      profileimage.src = url + mydata.image_url;
-
-      if (userResponse.ok) {
-        const userData = await userResponse.json();
-        // 예시로 email을 사용하였습니다.
-  
-        // 로그인 상태에 따라 [일정 만들기] 버튼 보이기/숨기기
-        const createPlannerBtn = document.getElementById("createPlannerBtn");
-        createPlannerBtn.style.display = "block"; // 초기값은 보이기
-  
-        if (!userId) {
-          // 로그인되지 않은 경우 버튼을 숨김
-          createPlannerBtn.style.display = "none";
-        }
-      } else {
-        console.error("Failed to fetch user data:", userResponse.statusText);
-      }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-
-
-
       // 초기에 데이터를 불러와서 그리드에 표시
-      await fetchAndRenderPlanners("");
+      fetchAndRenderPlanners("");
+
+      // 검색 입력창에서 Enter 키를 눌렀을 때의 이벤트 핸들러 등록
+      const searchInput = document.getElementById('searchInput');
+      searchInput.addEventListener('keydown', handleEnterKey);
     });
+
   </script>
   
   
 </body>
-
 </html>
+
+
