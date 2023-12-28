@@ -45,11 +45,22 @@ function send_data() {
         current_recruits: current_recruits,
         status: status,
     };
-    
-    data.thumbnail_image_url = selected_thumbnail_image
-    data.sub_image_url_a = selected_sub_image_a
-    data.sub_image_url_b = selected_sub_image_b
-    data.sub_image_url_c = selected_sub_image_c
+    if (selected_thumbnail_image) {
+        data.thumbnail_image_url = selected_thumbnail_image
+    } else {
+        data.thumbnail_image_url = null}
+    if (selected_sub_image_a) {
+        data.sub_image_url_a = selected_sub_image_a
+    } else {
+        data.sub_image_url_a = null}
+    if (selected_sub_image_b) {
+        data.sub_image_url_b = selected_sub_image_b
+    } else {
+        data.sub_image_url_b = null}
+    if (selected_sub_image_c) {
+        data.sub_image_url_c = selected_sub_image_c
+    } else {
+        data.sub_image_url_c = null}
 
     fetch(url+"/companion/list/", {
         method: 'POST',
