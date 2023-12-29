@@ -177,7 +177,7 @@ fetch(url+`/companion/list/${post_id}/`, {
                         <p class="text-gray-600 mb-6">작성자 : ${comment.user_nickname}</p>
                         <p class="text-gray-600 mb-6" onclick="reply_form(${comment.id})" style="cursor: pointer;">내용 : ${comment.comment_text}</p>
                         <div id="comment_update_container${comment.id}"></div>
-                        <button onclick="comment_update_form(${comment.id}, ${comment.comment_text})" class="bg-blue-500 text-white rounded-lg px-4 py-2 hover:bg-blue-700 focus:outline-none focus:bg-blue-700">수정하기</button>
+                        <button onclick="comment_update_form(${comment.id}, '${comment.comment_text}')" class="bg-blue-500 text-white rounded-lg px-4 py-2 hover:bg-blue-700 focus:outline-none focus:bg-blue-700">수정하기</button>
                         <button onclick="comment_delete(${comment.id})" class="bg-blue-500 text-white rounded-lg px-4 py-2 hover:bg-blue-700 focus:outline-none focus:bg-blue-700">삭제하기</button>
                         <ul id="reply_list${comment.id}" class="border border-gray-200 rounded-lg p-4 pl-4"></ul>
                 `
@@ -189,7 +189,7 @@ fetch(url+`/companion/list/${post_id}/`, {
                         <p class="text-gray-600 mb-6">작성자 : ${comment.user_nickname}</p>
                         <p class="text-gray-600 mb-6">내용 : ${comment.comment_text}</p>
                         <div id="comment_update_container${comment.id}"></div>
-                        <button onclick="comment_update_form(${comment.id}, ${comment.comment_text})" class="bg-blue-500 text-white rounded-lg px-4 py-2 hover:bg-blue-700 focus:outline-none focus:bg-blue-700">수정하기</button>
+                        <button onclick="comment_update_form(${comment.id}, '${comment.comment_text}')" class="bg-blue-500 text-white rounded-lg px-4 py-2 hover:bg-blue-700 focus:outline-none focus:bg-blue-700">수정하기</button>
                         <button onclick="comment_delete(${comment.id})" class="bg-blue-500 text-white rounded-lg px-4 py-2 hover:bg-blue-700 focus:outline-none focus:bg-blue-700">삭제하기</button>
                 `
                 reply_container.appendChild(reply_element);
