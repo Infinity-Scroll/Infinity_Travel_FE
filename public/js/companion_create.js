@@ -35,32 +35,28 @@ function send_data() {
     }
     const accesstoken = getAccessToken();
     
-    const data = {
-        title: title,
-        content: content,
-        area: area,
-        start_date: start_date,
-        end_date: end_date,
-        total_recruits: total_recruits,
-        current_recruits: current_recruits,
-        status: status,
-    };
+    
+    const data = new FormData();
+    data.append('title', title);
+    data.append('content', content);
+    data.append('area', area);
+    data.append('start_date', start_date);
+    data.append('end_date', end_date);
+    data.append('total_recruits', total_recruits);
+    data.append('current_recruits', current_recruits);
+    data.append('status', status);
     if (selected_thumbnail_image) {
-        data.thumbnail_image_url = selected_thumbnail_image
-    } else {
-        data.thumbnail_image_url = null}
+        data.append('thumbnail_image_url', selected_thumbnail_image);
+    }
     if (selected_sub_image_a) {
-        data.sub_image_url_a = selected_sub_image_a
-    } else {
-        data.sub_image_url_a = null}
+        data.append('sub_image_url_a', selected_sub_image_a);
+    }
     if (selected_sub_image_b) {
-        data.sub_image_url_b = selected_sub_image_b
-    } else {
-        data.sub_image_url_b = null}
+        data.append('sub_image_url_b', selected_sub_image_b);
+    }
     if (selected_sub_image_c) {
-        data.sub_image_url_c = selected_sub_image_c
-    } else {
-        data.sub_image_url_c = null}
+        data.append('sub_image_url_c', selected_sub_image_c);
+    }
 
     fetch(url+"/companion/list/", {
         method: 'POST',
